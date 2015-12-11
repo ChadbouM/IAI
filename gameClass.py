@@ -1,4 +1,17 @@
-import sys
+import util
+
+''' gameClass.py: IAI Project
+  * The classes used in creating and running the
+  * hunting simulation.
+  * Used as the test site for the inventory
+  * *
+  * Author(s):
+  * Michael Chadbourne
+  * Mateo Freyre
+& * Tim Webber
+  * *
+  * Last Edited: 12/10/15
+'''
 
 ''' heroAgent:
   * A basic decision agent
@@ -31,7 +44,7 @@ class heroAgent:
   * Acts on a list of positions to attack the Hero
 '''
 class villiansAgent:
-    def _init_(self, positions):
+    def __init__(self, positions):
         self.positions = positions
         self.healthi   = [20] * len(positions)
 

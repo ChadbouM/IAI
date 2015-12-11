@@ -10,42 +10,54 @@ Authors:
 
 Last Edited: 12/10/15
 
+TODO:
+  * Update this list.
+
 Files:
+	* IAI.py:
+    The Main-File for the project: Runs the testing suite and displays results.
+	
+	gameClass.py:
+    contains the classes which represent the structure of the hunting 
+    simulator. This is where the learning-agent gathers new information, and
+    Tests the effectiveness of their current knowledge.
+	
     items.py:
     contains the item classes as well as instantiations of the items which make
     up the item-store's catalog.
-
+	
     shopping.py:
     contains the processes used in assigning a personal inventory from the stock
     available in the item-store. This is where the learning-agent applies it's
     knowledge.
-
-    gameObjects.py:
-    contains the classes which represent the structure of the testing
-    environment. This is where the learning-agent gathers new information, and
-    Tests the effectiveness of their item build.
-
-    IAI.py:
-    The Main-File for the project: Runs the testing suite and displays results.
-
+	
+	README:
+	this
+	
+	util.py:
+	A small collection of custom mapping agents, used by other elements of the
+	application.
+	
+	wiseClass.py:
+	The class(es) used in the creation and manipulation
+    of a feature-based learning agent
+    This is where the learning agent stores it's knowledge
+	
 DESIGN:
     items.py contains item classes used by the shop, and in the hunting phase.
     These classes, while not enforced by python, must be adhered to when
     creating new items, so as to assure consistency of function.
 
-    shopping.py uses the a <FORMAT DECISION> passed to it, to generate an
-    inventory based upon the items available in <FORMAT DECISION> and the
-    knowledge of items learned from "Journal Entries" received from the hunting
-    phase.
+    shopping.py uses wisdom and a weight-limit to determine which items will
+	be added to the inventory, and used in the next round of the hunting 
+	simulation
 
-    The JOURNAL ENTRIES are in the format:
-    (String action, int time, int hp, int hits) or
-    ("HIT", int time, int hp, Listof<String> tags)
-
-    Where 'action' is 'MOVE' or the name of an item.
-    'time' is the number of turns since the level began
-    'hp' is the Hero's hp after the reported action occurred
-    'hits' is the number of enemies affected by the action
-    and 'tags' in the "HIT" case is a List of iterm-names where each name in the
-        list is a weapon which could have helped the hero.
+    gameClass.py runs the hunting simulation, modifying the wisdom class found
+	in wiseClass.py to learn from the experience. Uses an inventory passed
+	from shopping.py, then passes the wisdom back to the shopper to test
+	the new knowledge.
+	
+	IAI.py initiates the loop described above, and sets its duration. Returning
+	the scores rendered during hunting simulations, illustrating improvement in
+	the learning agents outcomes.
         

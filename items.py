@@ -1,10 +1,23 @@
-import sys
+#IMPORTS
+
+''' items.py: IAI Project
+  * Provides outlines of what each item-class
+  * is required to have, followed by several instantiated
+  * item classes
+  * *
+  * Author(s):
+  * Michael Chadbourne
+  * Mateo Freyre
+& * Tim Webber
+  * *
+  * Last Edited: 12/10/15
+'''
 
 ''' Weapon:
   * An abstract class for weapons
 '''
 class Weapon(object):
-    def _init_(self):
+    def __init__(self):
         self.name = ""
         self.range = 0
         self.weight = 0
@@ -23,7 +36,7 @@ class Weapon(object):
   * An abstract class for medkits
 '''
 class Medkit(object):
-    def _init_(self):
+    def __init__(self):
         self.name = ""
         self.healPower = 0
         self.weight = 0
@@ -33,7 +46,7 @@ class Medkit(object):
   * An abstract class for ammo
 '''
 class Ammo(object):
-    def _init_(self):
+    def __init__(self):
         self.name = ""
         self.weight = 0
         # If we need an "ammo type", it must be here as well
@@ -42,7 +55,7 @@ class Ammo(object):
   * An abstract class for candy
 '''
 class Candy(object):
-    def _init_(self):
+    def __init__(self):
         self.name = ""
-        self.weight = ""
-        self.points = ""
+        self.weight = 0
+        self.points = 0
