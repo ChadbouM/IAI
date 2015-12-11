@@ -1,5 +1,17 @@
 import sys
 
+''' shopping.py: IAI Project
+  * 
+  * 
+  * *
+  * Author(s):
+  * Michael Chadbourne
+  * Mateo Freyre
+& * Tim Webber
+  * *
+  * Last Edited: 12/10/15
+'''
+
 ''' shopping class:
   * This class stores a diary of moves
   * and actions taken during the game
