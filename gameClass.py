@@ -23,11 +23,11 @@ class heroAgent:
         #TODO return as a list of game_items
         return []
 
-    def __init__(self, start, rawItems):
+    def __init__(self, start, rawItems, wisdom):
         self.health   = 100              # health points
         self.position = start            # X, Y position as tuple
         self.invtry   = refine(rawItems) # A list of game_items available to the hero
-        self.diary    = []               # A list of the actions taken by the hero
+        self.wisdom   = wisdom           # A list of the actions taken by the hero
         # Journal Entries
     ''' advance:
       * Progresses the hero forward acording
@@ -77,9 +77,9 @@ class gameMap:
   * A representation of the current state of the game
 '''
 class gameState:
-    def __init__(self, map, rawItems):
+    def __init__(self, map, rawItems, wisdom):
         self.map = map
-        self.hero = heroAgent(map.heroSpawn, rawItems)
+        self.hero = heroAgent(map.heroSpawn, rawItems, wisdom)
         self.vlns = villiansAgent(map.vilSpawns)
         self.maxVil = len(map.vilSpawns)
         self.time = 0

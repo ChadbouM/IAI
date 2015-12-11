@@ -23,7 +23,7 @@ from util import knowledge, counter
 ''' 
 class wisdom:
     def __init__(self, store):
-        # Used for access to availble items
+        ''' Used for access to availble items'''
         self.store = store
         ''' Used to store valuations on items,
           * Which can be evaluated and modified in terms of 
@@ -33,5 +33,12 @@ class wisdom:
           * useful, can be normalized and cloned.
           * Defaults to 0. '''
         self.relativeUse = counter()
-        
-    
+
+    ''' useable:
+      * Returns a counter mapping item-names to the
+      * number of enemies that item would hit
+    '''
+    def useable(self, heroPos, vilList):
+        rtrn = counter()
+        # TODO
+        return rtrn
