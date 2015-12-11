@@ -14,32 +14,32 @@ TODO:
   * Update this list.
 
 Files:
-	* IAI.py:
+    * IAI.py:
     The Main-File for the project: Runs the testing suite and displays results.
-	
+
 	gameClass.py:
     contains the classes which represent the structure of the hunting 
     simulator. This is where the learning-agent gathers new information, and
     Tests the effectiveness of their current knowledge.
-	
+
     items.py:
     contains the item classes as well as instantiations of the items which make
     up the item-store's catalog.
-	
+
     shopping.py:
     contains the processes used in assigning a personal inventory from the stock
     available in the item-store. This is where the learning-agent applies it's
     knowledge.
-	
-	README:
-	this
-	
-	util.py:
+
+    README:
+    this
+
+    util.py:
 	A small collection of custom mapping agents, used by other elements of the
 	application.
 	
-	wiseClass.py:
-	The class(es) used in the creation and manipulation
+    wiseClass.py:
+    The class(es) used in the creation and manipulation
     of a feature-based learning agent
     This is where the learning agent stores it's knowledge
 	
