@@ -1,5 +1,5 @@
 import gameObjects
-import items
+from items import *
 import shopping
 
 ''' IAI.py: IAI Project
@@ -16,4 +16,11 @@ import shopping
 
 class IAI():
 	def __init__(self):
+		store = {}
+		pistol = Pistol()
+		shotgun = Shotgun()
+		rifle = Rifle()
+		store.update({pistol.getName(): pistol})
+		store.update({shotgun.getName(): shotgun})
+		store.update({rifle.getName(): rifle})
 		

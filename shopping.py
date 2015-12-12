@@ -34,6 +34,8 @@ class shopping:
    	def buy():
    		counter = 0
    		while counter < maxWeight:
-   			self.inventory.update({"itemName": wisdom.store["itemName"]})
+   			currentItem = wisdom.store["itemName"]
+   			self.inventory.update({"itemName": currentItem})
+   			counter += currentItem.getWeight()
    		return self.inventory
     	
