@@ -17,7 +17,7 @@ Files:
     * IAI.py:
     The Main-File for the project: Runs the testing suite and displays results.
 
-	gameClass.py:
+    gameClass.py:
     contains the classes which represent the structure of the hunting 
     simulator. This is where the learning-agent gathers new information, and
     Tests the effectiveness of their current knowledge.
@@ -35,9 +35,9 @@ Files:
     this
 
     util.py:
-	A small collection of custom mapping agents, used by other elements of the
-	application.
-	
+    A small collection of custom mapping agents, used by other elements of the
+    application.
+
     wiseClass.py:
     The class(es) used in the creation and manipulation
     of a feature-based learning agent
@@ -49,15 +49,17 @@ DESIGN:
     creating new items, so as to assure consistency of function.
 
     shopping.py uses wisdom and a weight-limit to determine which items will
-	be added to the inventory, and used in the next round of the hunting 
-	simulation
+    be added to the inventory, and used in the next round of the hunting 
+    simulation
 
     gameClass.py runs the hunting simulation, modifying the wisdom class found
-	in wiseClass.py to learn from the experience. Uses an inventory passed
-	from shopping.py, then passes the wisdom back to the shopper to test
-	the new knowledge.
+    in wiseClass.py to learn from the experience. Uses an inventory passed
+    from shopping.py, then passes the wisdom back to the shopper to test
+    the new knowledge.
 	
-	IAI.py initiates the loop described above, and sets its duration. Returning
-	the scores rendered during hunting simulations, illustrating improvement in
-	the learning agents outcomes.
-        
+    IAI.py initiates the loop described above, and sets its duration. Returning
+    the scores rendered during hunting simulations, illustrating improvement in
+    the learning agents outcomes.
+    
+ALGORITHIM:
+    # TODO
