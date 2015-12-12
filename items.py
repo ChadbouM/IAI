@@ -1,6 +1,3 @@
-#IMPORTS
-from abc import ABCMeta, abstractmethod
-
 ''' items.py: IAI Project
   * Provides outlines of what each item-class
   * is required to have, followed by several instantiated
@@ -14,55 +11,14 @@ from abc import ABCMeta, abstractmethod
   * Last Edited: 12/10/15
 '''
 
-''' Medkit:
-  * An abstract class for medkits
+''' SuperItem:
+  * An abstract superclass for all items
 '''
-class Medkit(object):
-    def __init__(self):
-        self.name = ""
-        self.healPower = 10
-        self.weight = 5
-
-'''Ammo:
-  * An abstract class for ammo
-'''
-class Ammo(object):
-    def __init__(self):
-        self.name = ""
-        self.weight = 1
-        # If we need an "ammo type", it must be here as well
-
-'''Candy:
-  * An abstract class for candy
-'''
-class Candy(object):
-    def __init__(self):
-        self.name = ""
-        self.weight = 5
-        self.points = 50
-
-''' Weapon:
-  * An abstract superclass for all weapons
-'''
-class Weapon(object):
+class SuperItem(object):
 
     def __init__(self):
         self.name = ""
-        self.range = 0
         self.weight = 0
-        self.damage = 0
-        # Do we need an "ammo type"?
-        # I think we should leave out for now
-        # and add in if we have time.
-        # It will add complexity
-        
-    ''' AOE:
-      * Given 'pos' a (int, int) tuple representing the position of
-      * impact, Returns a list of all (int, int) tuples,
-      * representing the set of positions hit by the weapon
-    '''
-    def AOE(self, pos):
-        raise NotImplementedError('subclasses must be overidden, yo')
 
     ''' getName:
       * Returns the name of the object
@@ -70,11 +26,44 @@ class Weapon(object):
     def getName(self):
         return self.name
 
+    ''' getWeight:
+      * Returns the name of the object
+    '''
+    def getWeight(self):
+        return self.weight
+
+''' Medkit:
+  * An abstract class for medkits
+'''
+class Medkit(SuperItem):
+    def __init__(self):
+        self.name = "medkit"
+        self.healPower = 10
+        self.weight = 5
+
+'''Ammo:
+  * An abstract class for ammo
+'''
+class Ammo(SuperItem):
+    def __init__(self):
+        self.name = "ammo"
+        self.weight = 1
+        # If we need an "ammo type", it must be here as well
+
+'''Candy:
+  * An abstract class for candy
+'''
+class Candy(SuperItem):
+    def __init__(self):
+        self.name = "candy"
+        self.weight = 5
+        self.points = 50
+
 ''' ========================= WEAPONS ========================= '''
 '''Pistol:
   * The Pistol Weapon Class
 '''
-class Pistol(Weapon):
+class Pistol(SuperItem):
     def __init__(self):
       	self.name = "pistol"
       	self.range = 5
@@ -86,7 +75,7 @@ class Pistol(Weapon):
 '''Shotgun:
   * The Shotgun Weapon Class
 '''
-class Shotgun(Weapon):
+class Shotgun(SuperItem):
     def __init__(self):
         self.name = "shotgun"
         self.range = 2
@@ -98,7 +87,7 @@ class Shotgun(Weapon):
 '''Rifle:
   * The Rifle Weapon Class
 '''
-class Rifle(Weapon):
+class Rifle(SuperItem):
     def __init__(self):
         self.name = "rifle"
         self.range = 10
