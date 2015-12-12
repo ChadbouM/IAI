@@ -1,4 +1,5 @@
 #IMPORTS
+from abc import ABCMeta, abstractmethod
 
 ''' items.py: IAI Project
   * Provides outlines of what each item-class
@@ -17,6 +18,9 @@
   * An abstract class for weapons
 '''
 class Weapon(object):
+    #__metaclass__ = ABCMeta
+
+    #@abstractmethod
     def __init__(self):
         self.name = ""
         self.range = 0
@@ -29,6 +33,7 @@ class Weapon(object):
       * impact, Returns a list of all (int, int) tuples,
       * representing the set of positions hit by the weapon
     '''
+    #@abstractmethod
     def AOE(self, pos):
         raise NotImplementedError('subclasses must be overidden, yo')
 
@@ -61,14 +66,14 @@ class Candy(object):
 
 ''' ========================= WEAPONS ========================= '''
 class Pistol(Weapon):
-	def __init_(self):
-		self.name = pistol
-		self.range = 3
-		self.weight = 10
+    def __init__(self):
+      	self.name = "pistol"
+      	self.range = 3
+        self.weight = 10
 
 	def AOE(self):
 		raise NotImplementedError('MAKE ME BITCH')
 
 a = Pistol()
-print type(a)
+print a.range
 
