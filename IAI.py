@@ -13,7 +13,3 @@ import shopping
   * *
   * Last Edited: 12/10/15
 '''
-
-class IAI():
-	def __init__(self):
-		
