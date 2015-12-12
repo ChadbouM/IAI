@@ -27,17 +27,42 @@ class heroAgent:
         self.health   = 100              # health points
         self.position = start            # X, Y position as tuple
         self.invtry   = refine(rawItems) # A list of game_items available to the hero
-        self.wisdom   = wisdom           # A list of the actions taken by the hero
-        # Journal Entries
+        self.wisdom   = wisdom           # The heroes sense of item-knowledge
+    
+    ''' use:
+      * uses an item, and updates the valuation of that item somewhat
+      * returns None, if the action could not be completed
+    '''
+    def use(self, context):
+        if context == 'HEAL':
+            return None
+    
+    ''' move:
+      * moves the hero north
+      * removing any villians in his path. TODO
+    '''
+    def move(self):
+        self.position = (self.position[0] + 1, self.position[1] + 1)
+    
+    
     ''' advance:
       * Progresses the hero forward acording
       * to a basic set of rules based upon villian position
       * and moving north
     '''
     def advance(self, gameState):
-        #TODO 'A basic set of rules'
-        self.position = (self.position[0], self.position[1] + 1)
-
+        weapons = self.wisdom.useable()
+        if health < 40: 
+            if self.use("HEAL") != None: return
+        if weapons.decide() == None:
+            if health <= 90: 
+                if self.use("HEAL") != None: return
+            self.move()
+            return
+        for weapon, usage in weapons.items():
+            if self.use(weapons.decide()) != None: return
+        self.move()    
+            
 
 ''' villiansAgent:
   * A basic decision agent for enemies

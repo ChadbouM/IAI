@@ -30,8 +30,8 @@ class wisdom:
           * Which can be evaluated and modified in terms of 
           * features '''
         self.featuredVal = knowledge()
-        ''' Used to store the likleyhood any given item is
-          * useful, can be normalized and cloned.
+        ''' Used to store the damage potential relative to
+          * Other 
           * Defaults to 0. '''
         self.relativeUse = counter()
         

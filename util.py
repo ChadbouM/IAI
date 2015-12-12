@@ -216,6 +216,12 @@ class pmCounter(dict):
         if len(rtrn) == 0: return None
         return choice(rtrn)
         
+''' typedList:
+  * A list with type based functions.
+''' #TODO
+class typedList(list):
+    values = 0
+        
 ''' manDistance:
   * Returns the manhattan distance between two points
   * Given two (int, int) tuples, returns an int
