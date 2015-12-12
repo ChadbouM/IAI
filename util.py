@@ -1,4 +1,4 @@
-#IMPORTS: None
+from random import choice
 
 ''' util.py: IAI Project
   * A small collection of custom mapping agents 
@@ -9,7 +9,7 @@
   * Mateo Freyre
 & * Tim Webber
   * *
-  * Last Edited: 12/10/15
+  * Last Edited: 12/11/15
 '''
 
 ''' tagon:
@@ -164,6 +164,58 @@ class counter(dict):
     def copy(self):
         return counter(dict.copy(self))
 
+''' posMaxCounter:
+  * A highly specialized mapping object
+  * Defaults to (None, 0), and records the position
+  * and value pair for each key, where the value element 
+  * is the highest ever recieved for the key
+'''
+class pmCounter(dict):
+    ''' __missing__:
+      * Defines the behavior when retrieving a key which is
+      * not in self.keys(), returns (None, 0)
+    '''
+    def __missing__(self, key):
+        return (None, 0)
+        
+    ''' __setitem__:
+      * Defines the behavior when setting a Key-Value pair
+      * Sets as normal if and only if value[1]
+    '''
+    def __setitem__(self, key, value):
+        # Type Check
+        if (    type(value)    == tuple 
+            and len(value)     == 2
+            and type(value[0]) == tuple 
+            and len(value[0])  == 2 
+            and type(value[1]) == int):
+            # Maintain the Max Value for value[1]
+            if self[key][1] < value[1]:
+                dict.__setitem__(self, key, value)
+        else: raise TypeError("posMaxCounter only accepts values of the type (int, int)")
+        
+    ''' copy:
+      * Returns a clone of this object
+    '''
+    def copy(self):
+        return posCounter(dict.copy(self))
+        
+    ''' decide:
+      * Randomly returns one of the most highly rated
+      * key-position pairs.
+    '''
+    def decide(self):
+        rtrn = []
+        best = 0
+        for key, value in self.items():
+            pos, score = value
+            if best < score:
+                rtrn = [(key, pos)]
+            elif best == score:
+                rtrn += [(key, pos)]
+        if len(rtrn) == 0: return None
+        return choice(rtrn)
+        
 ''' manDistance:
   * Returns the manhattan distance between two points
   * Given two (int, int) tuples, returns an int
@@ -178,7 +230,7 @@ if __name__ == "__main__" and __debug__:
     '''
     print "\t* RUNNING TESTS: Util.py *"
     
-    #Tests for the Tagon Class
+    # Tests for the Tagon Class
     print "Tagon Tests:_______________________"
     var = tagon()
     assert var['test'] == [], "Tagon default failure"
@@ -194,9 +246,9 @@ if __name__ == "__main__" and __debug__:
     assert var['flava'] == ['flav'], "Addition failure"
     var += var
     assert var['james'] == ['duck', 'cow'], "Addition duplication"
-    print "\t        Passed Tagon Tests!"
+    print "\t         Tagon Tests Passed!"
     
-    #Tests for the Knowledge Class
+    # Tests for the Knowledge Class
     print "Knowledge Tests:___________________"
     var = knowledge()
     var["one"] = 0
@@ -219,9 +271,9 @@ if __name__ == "__main__" and __debug__:
     assert var.tags.keys() == ['even', 'odd'], "knowledge failure 300 (+Tag)"
     assert var.tags['odd'] == ['one', 'three'], "knowledge failure 301 (+Tag)"
     # TODO Test additional Tag-Math Methods TODO    
-    print "\t    Passed Knowledge Tests!"
+    print "\t     Knowledge Tests Passed!"
     
-    #Tests for the counter Class
+    # Tests for the counter Class
     print "Counter Tests:_____________________"
     var = counter()
     var['simple'] += 1
@@ -231,11 +283,24 @@ if __name__ == "__main__" and __debug__:
     assert var['simple'] == float(1)/3, "counter normalization error"
     assert var['example'] == float(2)/3, "counter normaliztion error"
     assert var[3] == 0, "counter default error"
-    print "\t      Passed Counter Tests!"
+    print "\t       Counter Tests Passed!"
     
-    #Tests for manhattan Distance
+    # Tests for the pmCounter Class
+    print "pmCounter Tests:___________________"
+    var = pmCounter()
+    var['test'] = ((1, 2), 3)
+    assert var['test'] == ((1, 2), 3), "pmCounter assignment error"
+    assert var['else'] == (None, 0), "pmCounter default error"
+    var['test'] = ((2, 1), 4)
+    assert var['test'] == ((2, 1), 4), "pmCounter upwards assignment error"
+    var['test'] = ((1, 2), 3)
+    assert var['test'] == ((2, 1), 4), "pmCounter ignored assignment error"
+    print "\t     pmCounter Tests Passed!"
+    # TODO: Decide testing TODO
+    
+    # Tests for manhattan Distance
     print "mDist Tests:_______________________"
     assert mDist((4, 10), (3, 18)) == 9, "mDist error 101"
     assert mDist((2, 20), (4, 15)) == 7, "mDist error 101"
-    print "\t        Passed mDest Tests!"
+    print "\t         mDest Tests Passed!"
     
