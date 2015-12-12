@@ -24,7 +24,7 @@ import items
 ''' 
 class wisdom:
     def __init__(self, store):
-        ''' Used for access to availble items'''
+        ''' Used for access to available items'''
         self.store = store
         ''' Used to store valuations on items,
           * Which can be evaluated and modified in terms of 
