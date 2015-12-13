@@ -32,6 +32,12 @@ class SuperItem(object):
     def getWeight(self):
         return self.weight
 
+    ''' manhattanDistance:
+      * Returns the manhattan distance of one position to another
+    '''
+    def manhattanDistance(self, current, target):
+        return abs(current[0] - target[0]) + abs(current[1] - target[1])
+
 ''' ========================= NON-ABSTRACT CLASSES ========================= '''
 
 ''' Medkit:
@@ -77,10 +83,21 @@ class Pistol(SuperItem):
     def __init__(self):
       	self.name = "pistol"
       	self.range = 5
+        self.hitcount = 1
         self.weight = 10
 
-	def AOE(self):
-		raise NotImplementedError('MAKE ME BITCH')
+    ''' AOE:
+      * Given 'posPlayer' a (int, int) tuple representing the position of
+      * the player and 'listofTargets' a list of posn tuples representing the positions
+      * of the point of enemies, Returns a list of all enemy positions (int, int)
+      * hit by the weapon
+    '''
+    def AOE(self, posPlayer, listofTargets):
+        hitList = []
+        for target in listofTargets:
+            if self.manhattanDistance(posPlayer, target) <= self.range:
+                # hit the first target within range in the list
+                return target
 
 '''Shotgun:
   * The Shotgun Weapon Class
@@ -88,11 +105,26 @@ class Pistol(SuperItem):
 class Shotgun(SuperItem):
     def __init__(self):
         self.name = "shotgun"
-        self.range = 2
+        self.range = 3
+        self.hitcount = 3
         self.weight = 10
 
-    def AOE(self):
-        raise NotImplementedError('MAKE ME BITCH')
+    ''' AOE:
+      * Given 'posPlayer' a (int, int) tuple representing the position of
+      * the player and 'listofTargets' a list of posn tuples representing the positions
+      * of the point of enemies, Returns a list of all enemy positions (int, int)
+      * hit by the weapon
+    '''
+    def AOE(self, posPlayer, listofTargets):
+        hitList = []
+        counter = 0
+        # hit up to number of possible hitcounts
+        for target in listofTargets:
+            # hit the first three targets within range in the list
+            if self.manhattanDistance(posPlayer, target) <= self.range and counter < self.hitcount:
+                hitList.append(target)
+                counter += 1
+        return hitList
 
 '''Rifle:
   * The Rifle Weapon Class
@@ -101,19 +133,53 @@ class Rifle(SuperItem):
     def __init__(self):
         self.name = "rifle"
         self.range = 10
+        self.hitcount = 1
         self.weight = 10
 
-    def AOE(self):
-        raise NotImplementedError('MAKE ME BITCH')
+    ''' AOE:
+      * Given 'posPlayer' a (int, int) tuple representing the position of
+      * the player and 'listofTargets' a list of posn tuples representing the positions
+      * of the point of enemies, Returns a list of all enemy positions (int, int)
+      * hit by the weapon
+    '''
+    def AOE(self, posPlayer, listofTargets):
+        hitList = []
+        for target in listofTargets:
+            if self.manhattanDistance(posPlayer, target) <= self.range:
+                # hit the first target within range in the list
+                return target
 
 '''GrenadeLauncher:
   * The Grenade Launcher Weapon Class
 '''
 class GrenadeLauncher(SuperItem):
     def __init__(self):
-        self.name = "Grenade Launcher"
-        self.range = 5
+        self.name = "grenade launcher"
+        self.range = 7
+        self.hitcount = 5
         self.weight = 10
 
-    def AOE(self):
-        raise NotImplementedError('MAKE ME BITCH')
+    ''' AOE:
+      * Given 'posPlayer' a (int, int) tuple representing the position of
+      * the player and 'listofTargets' a list of posn tuples representing the positions
+      * of the point of enemies, Returns a list of all enemy positions (int, int)
+      * hit by the weapon
+    '''
+    def AOE(self, posPlayer, listofTargets):
+        hitList = []
+        counter = 0
+        # hit up to number of possible hitcounts
+        for target in listofTargets:
+            # hit the first three targets within range in the list
+            if self.manhattanDistance(posPlayer, target) <= self.range and counter < self.hitcount:
+                hitList.append(target)
+                counter += 1
+        return hitList
+
+#Testing
+targets = [[1,1], [2,1], [3,1], [4,1]]
+dude = [0,0]
+
+a = GrenadeLauncher()
+hitenemies = a.AOE(dude, targets)
+print hitenemies
