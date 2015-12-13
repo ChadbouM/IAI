@@ -32,14 +32,7 @@ class SuperItem(object):
     def getWeight(self):
         return self.weight
 
-    ''' manhattanDistance:
-      * Returns the manhattan distance of one position to another
-    '''
-    def manhattanDistance(self, current, target):
-        return abs(current[0] - target[0]) + abs(current[1] - target[1])
-
-''' ========================= NON-ABSTRACT CLASSES ========================= '''
-
+''' ======================== NON-ABSTRACT CLASSES ======================== '''
 ''' Medkit:
   * An abstract class for medkits
 '''
@@ -87,21 +80,17 @@ class Pistol(SuperItem):
         self.weight = 10
 
     ''' AOE:
-      * Given 'posPlayer' a (int, int) tuple representing the position of
-      * the player and 'listofTargets' a list of posn tuples representing the positions
-      * of the point of enemies, Returns a list of all enemy positions (int, int)
-      * hit by the weapon
+      * Given 'pos' a (int, int) tuple representing the position of
+      * impact, Returns a list of all (int, int) tuples,
+      * representing the set of positions hit by the weapon
+      * [ X ]
     '''
-    def AOE(self, posPlayer, listofTargets):
-        hitList = []
-        for target in listofTargets:
-            if self.manhattanDistance(posPlayer, target) <= self.range:
-                # hit the first target within range in the list
-                return target
+    def AOE(self, pos):
+        return [pos]
 
 '''Shotgun:
   * The Shotgun Weapon Class
-'''
+
 class Shotgun(SuperItem):
     def __init__(self):
         self.name = "shotgun"
@@ -109,12 +98,11 @@ class Shotgun(SuperItem):
         self.hitcount = 3
         self.weight = 10
 
-    ''' AOE:
-      * Given 'posPlayer' a (int, int) tuple representing the position of
-      * the player and 'listofTargets' a list of posn tuples representing the positions
-      * of the point of enemies, Returns a list of all enemy positions (int, int)
-      * hit by the weapon
-    '''
+    '' AOE:
+      * Given 'pos' a (int, int) tuple representing the position of
+      * impact, Returns a list of all (int, int) tuples,
+      * representing the set of positions hit by the weapon
+    ''
     def AOE(self, posPlayer, listofTargets):
         hitList = []
         counter = 0
@@ -125,6 +113,7 @@ class Shotgun(SuperItem):
                 hitList.append(target)
                 counter += 1
         return hitList
+'''
 
 '''Rifle:
   * The Rifle Weapon Class
@@ -138,16 +127,24 @@ class Rifle(SuperItem):
 
     ''' AOE:
       * Given 'posPlayer' a (int, int) tuple representing the position of
-      * the player and 'listofTargets' a list of posn tuples representing the positions
-      * of the point of enemies, Returns a list of all enemy positions (int, int)
-      * hit by the weapon
+      * the player and 'listofTargets' a list of posn tuples representing
+      * the positions of the point of enemies, Returns a list of all enemy
+      * positions (int, int) hit by the weapon. Position of first impact 
+      * is always in the middle of the returned list.
+      * [ X  X  X ]
+      * [ X  X  X ]
+      * [ X  X  X ]
     '''
-    def AOE(self, posPlayer, listofTargets):
-        hitList = []
-        for target in listofTargets:
-            if self.manhattanDistance(posPlayer, target) <= self.range:
-                # hit the first target within range in the list
-                return target
+    def AOE(self, pos):
+        return [pos, 
+        (pos[0] - 1, pos[1] + 0),
+        (pos[0] - 1, pos[1] - 1),
+        (pos[0] + 0, pos[1] + 1),
+        (pos[0] + 1, pos[1] + 1),
+        (pos[0] + 1, pos[1] + 0),
+        (pos[0] + 1, pos[1] - 1),
+        (pos[0] + 0, pos[1] - 1),
+        (pos[0] - 1, pos[1] - 1)]
 
 '''GrenadeLauncher:
   * The Grenade Launcher Weapon Class
@@ -161,25 +158,54 @@ class GrenadeLauncher(SuperItem):
 
     ''' AOE:
       * Given 'posPlayer' a (int, int) tuple representing the position of
-      * the player and 'listofTargets' a list of posn tuples representing the positions
-      * of the point of enemies, Returns a list of all enemy positions (int, int)
-      * hit by the weapon
+      * the player and 'listofTargets' a list of posn tuples representing
+      * the positions of the point of enemies, Returns a list of all enemy
+      * positions (int, int) hit by the weapon. Position of first impact 
+      * is always in the middle of the returned list.
+      * [ X  X  X  X  X ]
+      * [ X  X  X  X  X ]
+      * [ X  X  X  X  X ]
+      * [ X  X  X  X  X ]
+      * [ X  X  X  X  X ]
     '''
-    def AOE(self, posPlayer, listofTargets):
-        hitList = []
-        counter = 0
-        # hit up to number of possible hitcounts
-        for target in listofTargets:
-            # hit the first three targets within range in the list
-            if self.manhattanDistance(posPlayer, target) <= self.range and counter < self.hitcount:
-                hitList.append(target)
-                counter += 1
-        return hitList
+    def AOE(self, pos):
+        return [pos, 
+        (pos[0] - 1, pos[1] + 0),
+        (pos[0] - 1, pos[1] - 1),
+        (pos[0] + 0, pos[1] + 1),
+        (pos[0] + 1, pos[1] + 1),
+        (pos[0] + 1, pos[1] + 0),
+        (pos[0] + 1, pos[1] - 1),
+        (pos[0] + 0, pos[1] - 1),
+        (pos[0] - 1, pos[1] - 1),  # Here and above same as rifle
+        (pos[0] - 2, pos[1] + 0),
+        (pos[0] - 2, pos[1] + 1),
+        (pos[0] - 2, pos[1] + 2),
+        (pos[0] - 1, pos[1] + 2),
+        (pos[0] - 0, pos[1] + 2),
+        (pos[0] + 1, pos[1] + 2),
+        (pos[0] + 2, pos[1] + 2),
+        (pos[0] + 2, pos[1] + 1),
+        (pos[0] + 2, pos[1] + 0),
+        (pos[0] + 2, pos[1] - 1),
+        (pos[0] + 2, pos[1] - 2),
+        (pos[0] + 1, pos[1] - 2),
+        (pos[0] + 0, pos[1] - 2),
+        (pos[0] - 1, pos[1] - 2),
+        (pos[0] - 2, pos[1] - 2),
+        (pos[0] - 2, pos[1] - 1)]
 
 #Testing
-targets = [[1,1], [2,1], [3,1], [4,1]]
-dude = [0,0]
+target = (0,0)
 
-a = GrenadeLauncher()
-hitenemies = a.AOE(dude, targets)
-print hitenemies
+a = Pistol()
+b = Rifle()
+c = GrenadeLauncher()
+hitenemiesPistol = a.AOE(target)
+hitenemiesRifle = b.AOE(target)
+hitenemiesGrenadeLauncher = c.AOE(target)
+
+print "\n", "Pistol hit: ", hitenemiesPistol, "\n"
+print "Rifle hit: ", hitenemiesRifle, "\n"
+print "Grenade Launcher hit: ", hitenemiesGrenadeLauncher, "\n"
+print "DataType of elements: ", type(hitenemiesGrenadeLauncher[0])
