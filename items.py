@@ -1,3 +1,5 @@
+from util import classyList as store
+
 ''' items.py: IAI Project
   * Provides outlines of what each item-class
   * is required to have, followed by several instantiated
@@ -39,7 +41,7 @@ class SuperItem(object):
   * The semi-stract class for medkits
 '''
 class Medkit(SuperItem):
-    def __init__(self, name='gen_medkit', hp=10, weight=5):
+    def __init__(self, name='gen_medkit', weight=5, hp=10):
         SuperItem.__init__(self, name, weight) 
         self.healPower = hp
  
@@ -74,7 +76,7 @@ class Ammo(SuperItem):
 '''
 class Candy(SuperItem):
     def __init__(self, name='gen_candy', weight=5, points=50):
-        sSuperItem.__init__(self, name, weight)
+        SuperItem.__init__(self, name, weight)
         self.points = points
 
 ''' ========================= WEAPONS & AMMO ========================= '''
@@ -138,8 +140,22 @@ def AOE_Grenade(pos):
 name_Grenade    = 'grenade launcher'       
 GrenadeLauncher = Weapon(name_Grenade, 10, 7, AOE_Grenade)
 GrenadeAmmo     = Ammo('grenade', 2, name_Grenade) 
+''' ========================= MISC ITEMS ========================= '''
+LightMedkit = Medkit('light heal', 2, 10)
+MediMedkit  = Medkit('heal', 4, 25)
+HeavyMedkit = Medkit('major heal', 10, 75)
 
-    
+TastyCandy    = Candy('candy', 1, 10)
+RareCandy     = Candy('rare candy', 5, 100)
+CrushingCandy = Candy('heavy candy', 15, 500)
+# Item of great export
+mainStore = store([ Pistol, PistolAmmo,
+                    Shotgun, ShotgunAmmo,
+                    Rifle, RifleAmmo,
+                    GrenadeLauncher, GrenadeAmmo,
+                    GenericAmmo,
+                    LightMedkit, MediMedkit, HeavyMedkit,
+                    TastyCandy, RareCandy, CrushingCandy])
 
 #Testing
 if __name__ == '__main__' and __debug__:
@@ -176,3 +192,10 @@ if __name__ == '__main__' and __debug__:
     printHits(hitenemiesRifle)
     print "Grenade Launcher Hits:"
     printHits(hitenemiesGrenadeLauncher)
+    
+    print "Type testing store"
+    assert set(mainStore[Weapon]) == set([Pistol, Shotgun, Rifle, GrenadeLauncher]), "Type Error"
+    assert set(mainStore[Ammo])   == set([PistolAmmo, ShotgunAmmo, RifleAmmo, GrenadeAmmo, GenericAmmo]), "Type Error"
+    assert set(mainStore[Medkit]) == set([LightMedkit, MediMedkit, HeavyMedkit]), "Type Error"
+    assert set(mainStore[Candy])  == set([TastyCandy, RareCandy, CrushingCandy]), "Type Error"
+    print "Type tests passed"

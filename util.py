@@ -216,11 +216,19 @@ class pmCounter(dict):
         if len(rtrn) == 0: return None
         return choice(rtrn)
         
-''' typedList:
+''' classyList:
   * A list with type based functions.
-''' #TODO
-class typedList(list):
-    values = 0
+'''
+class classyList(list):
+    __slots__ = []       
+    def __getitem__(self, key):
+        if type(key) == int:
+            return list.__getitem__(self, key)
+        elif type(key) == type:
+            return [value for value in self if  type(value) == key]
+            
+    def getClasses(self):
+        return list(set([type(value) for value in self]))
         
 ''' manDistance:
   * Returns the manhattan distance between two points
@@ -303,6 +311,15 @@ if __name__ == "__main__" and __debug__:
     assert var['test'] == ((2, 1), 4), "pmCounter ignored assignment error"
     print "\t     pmCounter Tests Passed!"
     # TODO: Decide testing TODO
+    
+    # Tests for classyList
+    print "classyList Tests:__________________"
+    var = classyList(['A', 1, 'B', 2, 'C', 0.2])
+    assert var[int] == [1,2], "classyList error, class extraction int"
+    assert var[str] == ['A', 'B', 'C'], "classyList error, class extraction str"
+    assert var[float] == [0.2], "classyList error, class extraction float"
+    assert var.getClasses() == list(set([str, int, float])), "classyList error, getClasses"
+    print "\t    classyList Tests Passed!"
     
     # Tests for manhattan Distance
     print "mDist Tests:_______________________"
