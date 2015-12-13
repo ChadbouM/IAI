@@ -1,5 +1,6 @@
 import sys
 from wiseClass import wisdom
+from operator import itemgetter
 
 ''' shopping.py: IAI Project
   * 
@@ -22,6 +23,7 @@ class shopping:
 
 	'''
 	 * initializes a weight for the inventory
+	 * initializes an inventory as a dictionary {itemName: itemObject}
 	'''
 	def __init__(self, maxWeight=100):
         self.maxWeight = maxWeight # maximum inventory space for each hunt
@@ -33,9 +35,32 @@ class shopping:
     '''
    	def buy():
    		counter = 0
-   		while counter < maxWeight:
-   			currentItem = wisdom.store["itemName"]
-   			self.inventory.update({"itemName": currentItem})
-   			counter += currentItem.getWeight()
+   		itemRatings = self.calculate()
+   		for key, value in itemRatings:
+   			currentItem = wisdom.store[key]
+   			if counter + currentItem.getWeight() <= self.maxWeight:
+   				self.inventory.update({key: currentItem})
+   				counter += currentItem.getWeight()
+   			
    		return self.inventory
     	
+    '''
+     * Returns a list of tuples sorted by the values in the
+     * temp dictionary
+     * Also calculates the importance of an item based on its
+     * usage and featured value
+    '''
+    def calculate():
+    	temp = {}
+    	for item in wisdom.store:
+    		name = item.getName()
+    		temp.update({name: wisdom.featuredVal[name] * wisdom.relativeUse[name]})
+
+    	return sortDictByVal(temp)
+
+    '''
+     * Sorts a dictionary by values and returns it as a list of tuples
+     * Values sorted greatest to smallest
+    '''
+   	def sortDictByVal(dictionary):
+   		return sorted(dictionary.iteritems(), key=itemgetter(1), reverse=True)
