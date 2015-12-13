@@ -13,7 +13,6 @@ import shopping
   * *
   * Last Edited: 12/10/15
 '''
-
 class IAI():
 	def __init__(self):
 		store = {}
@@ -23,4 +22,3 @@ class IAI():
 		store.update({pistol.getName(): pistol})
 		store.update({shotgun.getName(): shotgun})
 		store.update({rifle.getName(): rifle})
-		

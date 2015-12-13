@@ -32,6 +32,8 @@ class SuperItem(object):
     def getWeight(self):
         return self.weight
 
+''' ========================= NON-ABSTRACT CLASSES ========================= '''
+
 ''' Medkit:
   * An abstract class for medkits
 '''
@@ -48,7 +50,15 @@ class Ammo(SuperItem):
     def __init__(self):
         self.name = "ammo"
         self.weight = 1
-        # If we need an "ammo type", it must be here as well
+        # If we need an "ammo type", it must be here as 
+
+'''Grenade Ammo:
+  * An abstract class for Grenade Ammo
+'''
+class GrenadeAmmo(SuperItem):
+    def __init__(self):
+        self.name = "grenade ammo"
+        self.weight = 1
 
 '''Candy:
   * An abstract class for candy
@@ -96,6 +106,14 @@ class Rifle(SuperItem):
     def AOE(self):
         raise NotImplementedError('MAKE ME BITCH')
 
-a = Pistol()
-print a.getName()
+'''GrenadeLauncher:
+  * The Grenade Launcher Weapon Class
+'''
+class GrenadeLauncher(SuperItem):
+    def __init__(self):
+        self.name = "Grenade Launcher"
+        self.range = 5
+        self.weight = 10
 
+    def AOE(self):
+        raise NotImplementedError('MAKE ME BITCH')
