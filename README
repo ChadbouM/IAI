@@ -60,6 +60,12 @@ DESIGN:
     IAI.py initiates the loop described above, and sets its duration. Returning
     the scores rendered during hunting simulations, illustrating improvement in
     the learning agents outcomes.
+	
+	AOE_functions: Given 'posPlayer' a (int, int) tuple representing the
+      * position of the player and 'listofTargets' a list of posn tuples 
+	  * representing the positions of the point of enemies, Returns a list of
+      * all enemy positions (int, int) hit by the weapon. Position of first
+      * impact is always in the returned list.
     
 ALGORITHIM:
     # TODO
