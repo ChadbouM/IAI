@@ -1,5 +1,6 @@
 import util
 from items import *
+from random import choice
 
 ''' gameClass.py: IAI Project
   * The classes used in creating and running the
@@ -92,7 +93,7 @@ class heroAgent:
 class villiansAgent:
     def __init__(self, positions):
         self.positions = positions
-        self.healthi   = [20] * len(positions)
+        self.dmg   = 10
 
     ''' stats:
       * returns a tuple with the stats for the specified villian
@@ -100,13 +101,54 @@ class villiansAgent:
     '''
     def stats(self, index):
         return (self.positions[i], self.healthi[i])
-
+        
+    ''' move:
+      * Returns the location that a villian at the given location would
+      * Progress to, and inflicts any damage the villian would cause during
+      * their turn.
+    ''' 
+    def move(self, pos, gameState):
+        target = gameState.hero.position
+        X, Y = pos
+        moves = [(X, Y), (X+1, Y), (X-1,Y), (X, Y+1), (X, Y-1)]
+        legalmoves = []
+        
+        [for move in moves if move is not target 
+            and move not in ]
+    
     ''' advance:
       * Progresses each of the locations in 'Positions' forward
       * acording to a basic set of rules based upon hero position
     '''
     def advance(self, gameState):
-        #TODO another 'basic set of rules'
+        target = gameState.hero
+        
+        advanced = []
+        temp = self.positions.copy()
+        for pos in self.positions:
+            # Remove from temp storage
+            temp.remove(pos)
+            # Damage Calculation
+            dist = util.mDist(target.position, pos)
+            if dist < 3:
+                gameState.hero.health -= self.dmg
+            else:
+            # Movement
+            X, Y = pos
+            moves = [(X, Y), (X+1, Y), (X-1,Y), (X, Y+1), (X, Y-1)]
+            legalmoves = [move for move in moves 
+                            if  move is not target 
+                            and move not in advanced
+                            and move not in temp
+                            and util.mDist(move, target.position) <= dist]
+            advanced += choice(legalmoves)
+        # They essentialy all move towards hero, attacking whenever in range
+        # and sometimes randomly staying still.
+        self.positions = advanced
+            
+            
+        
+            
 
 ''' gameState:
   * A representation of the current state of the game
