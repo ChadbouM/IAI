@@ -1,4 +1,4 @@
-import util
+import util, copy
 from items import *
 from random import choice
 
@@ -73,17 +73,17 @@ class heroAgent:
       * and moving north
     '''
     def advance(self, gameState):
-        weapons = self.wisdom.useable()
-        if health < 40: 
+        weapons = self.wisdom.useable(gameState.hero, gameState.vlns.getPosns())
+        if self.health < 40: 
             if self.use("HEAL") != None: return
         if weapons.decide() == None:
             if health <= 90: 
                 if self.use("HEAL") != None: return
-            self.move()
+            self.move(gameState)
             return
         for weapon, usage in weapons.items():
             if self.use(weapons.decide()) != None: return
-        self.move()    
+        self.move(gameState)    
             
 
 ''' villiansAgent:
@@ -101,30 +101,24 @@ class villiansAgent:
     '''
     def stats(self, index):
         return (self.positions[i], self.healthi[i])
-        
-    ''' move:
-      * Returns the location that a villian at the given location would
-      * Progress to, and inflicts any damage the villian would cause during
-      * their turn.
-    ''' 
-    def move(self, pos, gameState):
-        target = gameState.hero.position
-        X, Y = pos
-        moves = [(X, Y), (X+1, Y), (X-1,Y), (X, Y+1), (X, Y-1)]
-        legalmoves = []
-        
-        [for move in moves if move is not target 
-            and move not in ]
+
+    ''' positions:
+      * returns the list of positions
+    '''
+    def getPosns(self):
+        return self.positions
+
     
     ''' advance:
       * Progresses each of the locations in 'Positions' forward
-      * acording to a basic set of rules based upon hero position
+      * according to a basic set of rules based upon hero position
+      # Attacks hero when in range
     '''
     def advance(self, gameState):
         target = gameState.hero
         
         advanced = []
-        temp = self.positions.copy()
+        temp = copy.copy(self.positions)
         for pos in self.positions:
             # Remove from temp storage
             temp.remove(pos)
@@ -133,15 +127,16 @@ class villiansAgent:
             if dist < 3:
                 gameState.hero.health -= self.dmg
             else:
-            # Movement
-            X, Y = pos
-            moves = [(X, Y), (X+1, Y), (X-1,Y), (X, Y+1), (X, Y-1)]
-            legalmoves = [move for move in moves 
-                            if  move is not target 
-                            and move not in advanced
-                            and move not in temp
-                            and util.mDist(move, target.position) <= dist]
-            advanced += choice(legalmoves)
+              # Movement
+              X, Y = pos
+              moves = [(X, Y), (X+1, Y), (X-1,Y), (X, Y+1), (X, Y-1)]
+              legalmoves = [move for move in moves 
+                              if  move is not target 
+                              and move not in advanced
+                              and move not in temp
+                              and util.mDist(move, target.position) <= dist]
+
+              advanced += [choice(legalmoves)]
         # They essentialy all move towards hero, attacking whenever in range
         # and sometimes randomly staying still.
         self.positions = advanced
@@ -190,7 +185,7 @@ class gameState:
      * returns the list of villian positions
     '''
     def getVilPosn(self):
-        return self.vlns
+        return self.vlns.getPosns()
 
     ''' vilKill
      * removes a villian position from the list of villian positions

@@ -25,13 +25,14 @@ class shopping:
      * Buy items from the store and place them in the inventory
      * based on the determined importance of each item
     '''
-   	def shopping(invSize, theWisdom, initial=[]):
-   		output = store(initial)
-   		for key in self.calculate(theWisdom):
-   			currentItem = theWisdom.store[key]
-   			if output.getWeight(currentItem.getWeight()) <= invSize:
-   				output += [currentItem]
-   		return output
+    def shopping(self, invSize, theWisdom):
+        initial = []
+        output = store(initial)
+        for key in self.calculate(theWisdom):
+            currentItem = theWisdom.store[key]
+            if output.getWeight(currentItem.getWeight()) <= invSize:
+                output += [currentItem]
+        return output
     	
     ''' calculate:
      * Returns a list of tuples sorted by the values in the
@@ -39,12 +40,11 @@ class shopping:
      * Also calculates the importance of an item based on its
      * usage and featured value
     '''
-    def calculate(theWisdom):
+    def calculate(self, theWisdom):
     	temp = []
-    	for item in wisdom.store:
-    		name  = item.getName()
+        for item in theWisdom.store:
+            name = item.getName()
             value = theWisdom.featuredVal[name] * theWisdom.relativeUse[name]
             temp += [(name, value)]
-            return [ key for key, value in sorted(temp, key=itemgetter[1], reverse=True) ]
-
-    	return sortDictByVal(temp)
+        print temp
+        return [ key for key, value in sorted(temp, key=itemgetter(1), reverse=True) ]

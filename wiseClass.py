@@ -1,5 +1,5 @@
 from util import knowledge, counter, pmCounter, mDist
-import items
+from items import *
 
 ''' wiseClass.py: IAI Project
   * The class(es) used in the creation and manipulation
@@ -40,19 +40,20 @@ class wisdom:
       * position, and the number of enemies which would be
       * hit by firing on that position
     '''
-    def useable(self, hero, vilList):
+    def useable(self, hero, vilPosnList):
         # Helper, tallies overlap between AOE and Villians
-        def kCount(self, tar, wep, tars):
-            return len([0 for h in wep.AOE(tar) if in tars])
+        def kCount(tar, wep, tars):
+            return len([0 for h in wep.AOE(tar) if h in tars])
         rtrn = pmCounter()
         # Find the Best Shot for each
         bestShot = None
         maxHits = 0
-        for weap in [item for item in store if type(item) == Weapon]:
-            for villian in vilList:
-                if mDist(hero, villian) <= weap.range:
+        for weap in [item for item in self.store if type(item) == Weapon]:
+            for villian in vilPosnList:
+                #print villian
+                if mDist(hero.position, villian) <= weap.range:
                     # Take advantage of Max-Set, a feature of the pmCounter
-                    rtrn[weap.name] = (villian, kCount(villian, weap, vilList))
+                    rtrn[weap.name] = (villian, kCount(villian, weap, vilPosnList))
             # Set the relative usefullness to be higher.
             self.relativeUse[weap.name] += rtrn[weap.name][1] 
         return rtrn

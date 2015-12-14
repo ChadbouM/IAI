@@ -160,7 +160,7 @@ class store(classyList):
       * Returns true iff the SuperClass for the given item is Super Item
     '''
     def isItem(self, item):
-        return item.__base__ is SuperItem
+        return type(item).__base__ is SuperItem
         
     ''' __getItem__:
       * Defines the behavior around indexing into the list
