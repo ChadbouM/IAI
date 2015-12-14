@@ -10,7 +10,7 @@ from util import classyList as store
   * Mateo Freyre
 & * Tim Webber
   * *
-  * Last Edited: 12/10/15
+  * Last Edited: 12/13/15
 '''
 
 ''' SuperItem:

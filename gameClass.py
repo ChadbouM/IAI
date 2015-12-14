@@ -10,7 +10,7 @@ import util
   * Mateo Freyre
 & * Tim Webber
   * *
-  * Last Edited: 12/10/15
+  * Last Edited: 12/13/15
 '''
 
 ''' heroAgent:
@@ -86,17 +86,6 @@ class villiansAgent:
     '''
     def advance(self, gameState):
         #TODO another 'basic set of rules'
-
-''' gameMap:
-  * A representation of a game-level
-'''
-class gameMap:
-    def __init__(self, width, height, start, end, spawns):
-        self.levelSize = (width, height) #Level Bounds
-        self.heroSpawn = start  # Starting location
-        self.levelExit = end    # Win-Condition
-        self.vilSpawns = spawns # Enemy start locations
-
 
 ''' gameState:
   * A representation of the current state of the game

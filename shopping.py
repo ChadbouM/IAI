@@ -11,7 +11,7 @@ from operator import itemgetter
   * Mateo Freyre
 & * Tim Webber
   * *
-  * Last Edited: 12/10/15
+  * Last Edited: 12/12/15
 '''
 
 ''' shopping class:

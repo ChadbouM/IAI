@@ -11,7 +11,7 @@ import shopping
   * Mateo Freyre
 & * Tim Webber
   * *
-  * Last Edited: 12/10/15
+  * Last Edited: 12/12/15
 '''
 class IAI():
 	def __init__(self):
