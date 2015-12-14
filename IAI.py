@@ -31,10 +31,10 @@ def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
             
         theScore  = theGame.score()
         theWisdom = theGame.hero.wisdom
-        theRemains = theGame.hero.invtry
+        theRemains = theGame.hero.invtry # is this the remaining inventory after a game?
         
         # TODO: TheSage!? TODO
-        #theWisdom = theSage(theScore, theWisdom, anything else you need)
+        theWisdom = theWisdom.theSage(theScore, theRemains) # instance of wisdom class
         
         print str(runs) + " Runs remaining: " + str(theScore[1])
         

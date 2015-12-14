@@ -56,3 +56,19 @@ class wisdom:
             # Set the relative usefullness to be higher.
             self.relativeUse[weap.name] += rtrn[weap.name][1] 
         return rtrn
+
+    ''' theSage:
+     * return an updated wisdom based on the score, the hero's remaining inventory,
+     * and whether or not the hero won
+    '''
+    def theSage(self, score, remainingInv):
+        for item in remainingInv:
+            if score[0]: # if hero wins
+                if self.relativeUse[item] > 0: # if item was used increase its importance
+                    self.featuredVal.tagAdd(item, 1 * score[1])
+                else: # if item wasn't used decrease importance
+                    self.featuredVal.tagSub(item, 10)
+            else: # if hero loses
+                self.featuredVal.tagSub(item, 100 * score[1])
+
+        return self
