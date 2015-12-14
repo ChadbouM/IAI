@@ -1,5 +1,6 @@
 import gameClass, wiseClass, mapClass
 import shopping, items
+from items import *
 import util
 
 ''' IAI.py: IAI Project
@@ -24,6 +25,8 @@ def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
         theShop   = shopping.shopping()
         theEquipment = theShop.shopping(invSize, theWisdom)
         theGame   = gameClass.gameState(theMap, theEquipment, theWisdom)
+
+        print theEquipment.getClasses()
         
         while not theGame.gameOver():
             theGame.advance()
@@ -34,7 +37,7 @@ def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
 
         theWisdom = theWisdom.theSage(theScore, theRemains) # instance of wisdom class
         
-        print str(runs) + " Runs remaining: " + str(theScore[1])
+        # print str(runs) + " Runs remaining: " + str(theScore[1])
         
         if 0 < runs: runs -= 1
 

@@ -43,7 +43,7 @@ class heroAgent:
                     if ammo.getType() == item.getName() or ammo.getType() == 'GENERIC':
                         itemVal.tagAdd(ammo, 1)
                         itemUse[ammo] += 1
-                        del self.invtry[ammo] # delete one use item
+                        del self.invtry[ammo.name] # delete one use item
                         return True # ammo was found for gun
                 return None # ammo wasn't found for gun
             else: # accounts for health items (which are one use items)

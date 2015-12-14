@@ -168,7 +168,7 @@ class store(classyList):
     '''
     def __getitem__(self, key):
         if type(key) is str:
-            return [item for item in self if self.isItem(item)][0]
+            return [item for item in self if self.isItem(item) and item.name == key][0]
         else: classyList.__getitem__(self, key)
         
     

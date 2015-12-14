@@ -2,6 +2,7 @@ import sys
 from items import store
 from wiseClass import wisdom
 from operator import itemgetter
+import pdb
 
 ''' shopping.py: IAI Project
   * 
@@ -29,9 +30,9 @@ class shopping:
         initial = []
         output = store(initial)
         for key in self.calculate(theWisdom):
-            currentItem = theWisdom.store[key]
-            if output.getWeight(currentItem.getWeight()) <= invSize:
-                output += [currentItem]
+        	currentItem = theWisdom.store[key]
+        	if output.getWeight(currentItem.getWeight()) <= invSize:
+        		output += [currentItem]
         return output
     	
     ''' calculate:
@@ -44,7 +45,7 @@ class shopping:
     	temp = []
         for item in theWisdom.store:
             name = item.getName()
-            value = theWisdom.featuredVal[name] * theWisdom.relativeUse[name]
+            value = theWisdom.featuredVal[name] * theWisdom.relativeUse[name] + 1
             temp += [(name, value)]
         print temp
         return [ key for key, value in sorted(temp, key=itemgetter(1), reverse=True) ]
