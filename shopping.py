@@ -20,29 +20,21 @@ from operator import itemgetter
   * he goes hunting
 '''
 class shopping:
-
-	'''
-	 * initializes a weight for the inventory
-	 * initializes an inventory as a dictionary {itemName: itemObject}
-	'''
-	def __init__(self, maxWeight=100):
-        self.maxWeight = maxWeight # maximum inventory space for each hunt
-        self.inventory = {} #items to be used on the next hunt
-
     '''
      * Buy items from the store and place them in the inventory
      * based on the determined importance of each item
     '''
-   	def buy():
+   	def shopping(invSize, theWisdom):
    		counter = 0
-   		itemRatings = self.calculate()
+   		output = {}
+   		itemRatings = self.calculate(theWisdom)
    		for key, value in itemRatings:
-   			currentItem = wisdom.store[key]
-   			if counter + currentItem.getWeight() <= self.maxWeight:
-   				self.inventory.update({key: currentItem})
+   			currentItem = theWisdom.store[key]
+   			if counter + currentItem.getWeight() <= invSize:
+   				output.update({key: currentItem})
    				counter += currentItem.getWeight()
    			
-   		return self.inventory
+   		return output
     	
     '''
      * Returns a list of tuples sorted by the values in the
@@ -50,11 +42,11 @@ class shopping:
      * Also calculates the importance of an item based on its
      * usage and featured value
     '''
-    def calculate():
+    def calculate(theWisdom):
     	temp = {}
     	for item in wisdom.store:
     		name = item.getName()
-    		temp.update({name: wisdom.featuredVal[name] * wisdom.relativeUse[name]})
+    		temp.update({name: theWisdom.featuredVal[name] * theWisdom.relativeUse[name]})
 
     	return sortDictByVal(temp)
 
