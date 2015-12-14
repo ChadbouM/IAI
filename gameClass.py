@@ -21,6 +21,7 @@ from items import *
 class heroAgent:
     # init-helper: processes the given item-data into a list
     def refine(rawItems):
+        # Appears to take in a dictionary
         #TODO return as a list of game_items
         return []
 

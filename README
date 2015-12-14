@@ -14,7 +14,6 @@ TODO:
   * sage.py with a sage Class or Function inside
   * gameClass.py::refine(raw) : fill in or remove if the given class is suitable
   * gameClass.py::villianAdvance (TIM)
-  * shopping.py - Rework? (MAT)
   * get it running
   * Algorithm Tweaking
   * * inside 'Sage'

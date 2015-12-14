@@ -23,14 +23,16 @@ def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
     
     while runs:
         theShop   = shopping.shopping(invSize, theWisdom)
-        theGame   = gameClass.gameState(theMap, theShop.buy(), theWisdom)
+        theEquipment = theShop.shopping()
+        theGame   = gameClass.gameState(theMap, theEquipment, theWisdom)
         
         while not theGame.gameOver():
             theGame.advance()
             
         theScore  = theGame.score()
         theWisdom = theGame.hero.wisdom
-         
+        theRemains = theGame.hero.invtry
+        
         # TODO: TheSage!? TODO
         #theWisdom = theSage(theScore, theWisdom, anything else you need)
         
