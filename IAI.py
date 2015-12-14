@@ -1,6 +1,6 @@
-import gameObjects
-from items import *
-import shopping
+import gameClass, wiseClass, mapClass
+import shopping, items
+import util
 
 ''' IAI.py: IAI Project
   * TODO <Project Description>
@@ -11,14 +11,29 @@ import shopping
   * Mateo Freyre
 & * Tim Webber
   * *
-  * Last Edited: 12/12/15
+  * Last Edited: 12/13/15
 '''
-class IAI():
-	def __init__(self):
-		store = {}
-		pistol = Pistol()
-		shotgun = Shotgun()
-		rifle = Rifle()
-		store.update({pistol.getName(): pistol})
-		store.update({shotgun.getName(): shotgun})
-		store.update({rifle.getName(): rifle})
+__DFLTINVSZE__ = 100
+__DFLTRUNCNT__ = 100
+
+def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
+    theWisdom = wiseClass.wisdom(items.mainStore)
+    theMap    = mapClass.LargeSwarmMap
+    
+    while runs:
+        theShop   = shopping.shopping(invSize, theWisdom)
+        theGame   = gameClass.gameState(theMap, theShop.buy(), theWisdom)
+        
+        while not theGame.gameOver():
+            theGame.advance()
+            
+        theScore  = theGame.score()
+        theWisdom = theGame.hero.wisdom
+         
+        # TODO: TheSage!? TODO
+        #theWisdom = theSage.evaluate(theScore, theWisdom)
+        
+        if 0 < runs: runs -= 1
+    
+    
+    
