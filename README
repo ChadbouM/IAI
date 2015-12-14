@@ -49,10 +49,6 @@ Files:
 	README:
     this
 	
-	sage.py:
-	manipulates and returns the wisdom, based upon the score.
-	(Could be build as a function in wisdomClass instead of a new file)
-	
     shopping.py:
     contains the processes used in assigning a personal inventory from the stock
     available in the item-store. This is where the learning-agent applies it's

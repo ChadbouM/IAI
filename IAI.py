@@ -19,6 +19,7 @@ __DFLTRUNCNT__ = 100
 def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
     theWisdom = wiseClass.wisdom(items.mainStore)
     theMap    = mapClass.LargeSwarmMap
+    #theSage   = theWisdom.evaluate
     
     while runs:
         theShop   = shopping.shopping(invSize, theWisdom)
@@ -31,7 +32,7 @@ def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
         theWisdom = theGame.hero.wisdom
          
         # TODO: TheSage!? TODO
-        #theWisdom = theSage.evaluate(theScore, theWisdom)
+        #theWisdom = theSage(theScore, theWisdom, anything else you need)
         
         print str(runs) + " Runs remaining: " + str(theScore[1])
         
