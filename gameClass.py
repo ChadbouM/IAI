@@ -19,17 +19,12 @@ from items import *
   * used to traverse the inventory through the map
 '''
 class heroAgent:
-    # init-helper: processes the given item-data into a list
-    def refine(rawItems):
-        # Appears to take in a dictionary
-        #TODO return as a list of game_items
-        return []
 
-    def __init__(self, start, rawItems, wisdom):
-        self.health   = 100              # health points
-        self.position = start            # X, Y position as tuple
-        self.invtry   = rawItems         # A list of game_items available to the hero
-        self.wisdom   = wisdom           # The heroes sense of item-knowledge
+    def __init__(self, start, items, wisdom):
+        self.health   = 100     # health points
+        self.position = start   # X, Y position as tuple
+        self.invtry   = items   # A list of game_items available to the hero
+        self.wisdom   = wisdom  # The heroes sense of item-knowledge
     
     ''' use:
       * uses an item, and updates the valuation of that item somewhat
@@ -117,9 +112,9 @@ class villiansAgent:
   * A representation of the current state of the game
 '''
 class gameState:
-    def __init__(self, map, rawItems, wisdom):
+    def __init__(self, map, items, wisdom):
         self.map = map
-        self.hero = heroAgent(map.heroSpawn, rawItems, wisdom)
+        self.hero = heroAgent(map.heroSpawn, items, wisdom)
         self.vlns = villiansAgent(map.vilSpawns)
         self.maxVil = len(map.vilSpawns)
         self.time = 0

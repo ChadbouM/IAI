@@ -12,7 +12,6 @@ Last Edited: 12/13/15
 
 TODO:
   * sage.py with a sage Class or Function inside
-  * gameClass.py::refine(raw) : fill in or remove if the given class is suitable
   * gameClass.py::villianAdvance (TIM)
   * get it running
   * Algorithm Tweaking
