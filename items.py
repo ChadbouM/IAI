@@ -71,6 +71,9 @@ class Ammo(SuperItem):
           *  'GENERIC' can reload anything'''
         self.type   = type 
 
+    def getType():
+        return self.type
+
 '''Candy:
   * The semi-stract class for candy
 '''
@@ -199,3 +202,4 @@ if __name__ == '__main__' and __debug__:
     assert set(mainStore[Medkit]) == set([LightMedkit, MediMedkit, HeavyMedkit]), "Type Error"
     assert set(mainStore[Candy])  == set([TastyCandy, RareCandy, CrushingCandy]), "Type Error"
     print "Type tests passed"
+    print type(Pistol)
