@@ -37,10 +37,10 @@ class heroAgent:
 
         if item in self.invtry: 
             if type(item) is Weapon:
-                itemVal.tagAdd(item, 1)
-                itemUse[item] += 1
                 for ammo in self.invtry[Ammo]: # see if we have the right ammo type
                     if ammo.getType() == item.getName() or ammo.getType() == 'GENERIC':
+                        itemVal.tagAdd(item, 1)
+                        itemUse[item] += 1
                         itemVal.tagAdd(ammo, 1)
                         itemUse[ammo] += 1
                         del self.invtry[ammo.name] # delete one use item

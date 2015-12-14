@@ -71,7 +71,7 @@ class Ammo(SuperItem):
           *  'GENERIC' can reload anything'''
         self.type   = type 
 
-    def getType():
+    def getType(self):
         return self.type
 
 '''Candy:

@@ -56,6 +56,17 @@ class wisdom:
                     rtrn[weap.name] = (villian, kCount(villian, weap, vilPosnList))
             # Set the relative usefullness to be higher.
             self.relativeUse[weap.name] += rtrn[weap.name][1] 
+
+        for ammo in [item for item in self.store if type(item) == Ammo]:
+            self.relativeUse[ammo.name] += self.relativeUse[ammo.getType()]
+
+        for medkit in [item for item in self.store if type(item) == Medkit]:
+            self.relativeUse[medkit.name] += medkit.healPower
+
+        for candy in [item for item in self.store if type(item) == Candy]:
+            self.relativeUse[candy.name] += candy.points
+
+        self.relativeUse.normalize()
         return rtrn
 
     ''' theSage:

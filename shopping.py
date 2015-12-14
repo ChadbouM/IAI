@@ -1,5 +1,5 @@
 import sys
-from items import store
+from items import store, Weapon
 from wiseClass import wisdom
 from operator import itemgetter
 import pdb
@@ -32,7 +32,16 @@ class shopping:
         for key in self.calculate(theWisdom):
         	currentItem = theWisdom.store[key]
         	if output.getWeight(currentItem.getWeight()) <= invSize:
-        		output += [currentItem]
+        		if type(currentItem) == Weapon: 
+        			counter = 0
+        			for item in output:
+        				if type(item) == Weapon:
+        					counter += 1
+        			if counter < 2:
+        				output += [currentItem]
+        		else:
+        			output += [currentItem]
+        print output
         return output
     	
     ''' calculate:
@@ -47,5 +56,5 @@ class shopping:
             name = item.getName()
             value = theWisdom.featuredVal[name] * theWisdom.relativeUse[name] + 1
             temp += [(name, value)]
-        print temp
+        # print temp
         return [ key for key, value in sorted(temp, key=itemgetter(1), reverse=True) ]
