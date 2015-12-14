@@ -33,6 +33,8 @@ def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
         # TODO: TheSage!? TODO
         #theWisdom = theSage.evaluate(theScore, theWisdom)
         
+        print str(runs) + " Runs remaining: " + str(theScore[1])
+        
         if 0 < runs: runs -= 1
     
     

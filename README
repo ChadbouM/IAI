@@ -11,7 +11,22 @@ Authors:
 Last Edited: 12/13/15
 
 TODO:
-  * Update this list.
+  * sage.py with a sage Class or Function inside
+  * gameClass.py::refine(raw) : fill in or remove if the given class is suitable
+  * gameClass.py::villianAdvance (TIM)
+  * shopping.py - Rework? (MAT)
+  * get it running
+  * Algorithm Tweaking
+  * * inside 'Sage'
+  * * inside 'Wisdom'
+  * * inside 'Shop'
+  * * inside 'Game/Score'
+  * * better items?
+  * * better maps?
+  * Coffee
+  * Final README (and write-up? are we sure this is a thing) 
+  * Success
+  * Sleep
 
 Files:
     * IAI.py:
@@ -25,28 +40,37 @@ Files:
     items.py:
     contains the item classes as well as instantiations of the items which make
     up the item-store's catalog.
-
+    
+	mapClass.py:
+	contains the class used to represent and generate maps; followed by 
+	instantiations of the gameMap class, which are referenced by IAI when 
+	generating the Game state.
+	
+	README:
+    this
+	
+	sage.py:
+	manipulates and returns the wisdom, based upon the score.
+	(Could be build as a function in wisdomClass instead of a new file)
+	
     shopping.py:
     contains the processes used in assigning a personal inventory from the stock
     available in the item-store. This is where the learning-agent applies it's
     knowledge.
 
-    README:
-    this
-
     util.py:
-    A small collection of custom mapping agents, used by other elements of the
-    application.
+    A small collection of custom mapping agents, and other helpful things
+	used by other elements of the application.
 
     wiseClass.py:
-    The class(es) used in the creation and manipulation
+    The class used in the creation and manipulation
     of a feature-based learning agent
     This is where the learning agent stores it's knowledge
 	
-DESIGN:
+DESIGN ELEMENTS:
     items.py contains item classes used by the shop, and in the hunting phase.
-    These classes, while not enforced by python, must be adhered to when
-    creating new items, so as to assure consistency of function.
+    followed by several instantiations of these items, as well as a store which
+	are used by the shopping, wisdom, and game classes.
 
     shopping.py uses wisdom and a weight-limit to determine which items will
     be added to the inventory, and used in the next round of the hunting 
