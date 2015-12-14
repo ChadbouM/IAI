@@ -1,4 +1,5 @@
 import util
+from items import *
 
 ''' gameClass.py: IAI Project
   * The classes used in creating and running the
@@ -26,16 +27,37 @@ class heroAgent:
     def __init__(self, start, rawItems, wisdom):
         self.health   = 100              # health points
         self.position = start            # X, Y position as tuple
-        self.invtry   = refine(rawItems) # A list of game_items available to the hero
+        self.invtry   = rawItems         # A list of game_items available to the hero
         self.wisdom   = wisdom           # The heroes sense of item-knowledge
     
     ''' use:
       * uses an item, and updates the valuation of that item somewhat
       * returns None, if the action could not be completed
     '''
-    def use(self, context):
-        if context == 'HEAL':
-            return None
+    def use(self, item):
+        itemVal = self.wisdom.featuredVal # used to update the importance of an item
+        itemUse = self.wisdom.relativeUse # used to update the usage of an item
+
+        if item in self.invtry: 
+            if type(item) is Weapon:
+                itemVal.tagAdd(item, 1)
+                itemUse[item] += 1
+                for ammo in self.invtry[Ammo]: # see if we have the right ammo type
+                    if ammo.getType() == item.getName() or ammo.getType() == 'GENERIC':
+                        itemVal.tagAdd(ammo, 1)
+                        itemUse[ammo] += 1
+                        del self.invtry[ammo] # delete one use item
+                        return True # ammo was found for gun
+                return None # ammo wasn't found for gun
+            else: # accounts for health items (which are one use items)
+                itemVal.tagAdd(item, 1)
+                itemUse[item] += 1
+                del self.invtry[item] # delete one use item
+                return True
+        else: # item wasn't found
+            itemVal.tagAdd(item, 10)
+            itemUse[item] += 1
+            return None # item wasn't found
     
     ''' move:
       * moves the hero north
