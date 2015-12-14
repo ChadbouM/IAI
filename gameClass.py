@@ -61,11 +61,14 @@ class heroAgent:
     
     ''' move:
       * moves the hero north
-      * removing any villians in his path. TODO
+      * removing any villians in his path.
     '''
-    def move(self):
-        self.position = (self.position[0] + 1, self.position[1] + 1)
-    
+    def move(self, gameState):
+        self.position = (self.position[0], self.position[1] + 1)
+        # if the hero encounters a villian on the same position,
+        # he will melee it to oblivion
+        if self.position in gameState.getVilPosn():
+            gameState.vilKill(self.position)
     
     ''' advance:
       * Progresses the hero forward acording
@@ -144,3 +147,15 @@ class gameState:
         if (self.gameOver()): return
         self.hero.advance(self)
         self.vlns.advance(self)
+
+    ''' getVilPosn
+     * returns the list of villian positions
+    '''
+    def getVilPosn(self):
+        return self.vlns
+
+    ''' vilKill
+     * removes a villian position from the list of villian positions
+    '''
+    def vilKill(self, posn):
+        del self.vils[posn]
