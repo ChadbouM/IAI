@@ -31,7 +31,7 @@ class heroAgent:
       * uses an item, and updates the valuation of that item somewhat
       * returns None, if the action could not be completed
     '''
-    def use(self, item):
+    def use(self, item, gameState):
         itemVal = self.wisdom.featuredVal # used to update the importance of an item
         itemUse = self.wisdom.relativeUse # used to update the usage of an item
 
@@ -49,7 +49,7 @@ class heroAgent:
             else: # accounts for health items (which are one use items)
                 itemVal.tagAdd(item, 1)
                 itemUse[item] += 1
-                del self.invtry[item] # delete one use item
+                del self.invtry[item.name] # delete one use item
                 return True
         else: # item wasn't found
             itemVal.tagAdd(item, 10)
@@ -67,6 +67,30 @@ class heroAgent:
         if self.position in gameState.getVilPosn():
             gameState.vilKill(self.position)
     
+    def useKit(self, gameState):
+        kits = self.wisdom.store[Medkit]
+        bestKit  = kits[0]
+        bestDiff = -float('inf')
+        for i in range(len(kits)):
+            for kit in kits:
+                thisDiff = kit.healPower - self.health
+                if bestDiff < 0 and 0 < thisDiff:
+                    bestKit = kit
+                    bestDiff = thisDiff
+                thisDiff = min(abs(thisDiff), abs(bestDiff))
+            self.use(bestKit, gameState)
+            if bestKit in self.invtry:
+                print "check"
+                return bestKit
+            else: 
+                kits.remove(bestKit)
+                print kits
+                print self.wisdom.store[Medkit]
+        return None
+                
+            
+            
+            
     ''' advance:
       * Progresses the hero forward acording
       * to a basic set of rules based upon villian position
@@ -75,14 +99,14 @@ class heroAgent:
     def advance(self, gameState):
         weapons = self.wisdom.useable(gameState.hero, gameState.vlns.getPosns())
         if self.health < 40: 
-            if self.use("HEAL") != None: return
+            if self.useKit(gameState) != None: return
         if weapons.decide() == None:
             if health <= 90: 
-                if self.use("HEAL") != None: return
+                if self.useKit(gameState) != None: return
             self.move(gameState)
             return
         for weapon, usage in weapons.items():
-            if self.use(weapons.decide()) != None: return
+            if self.use(weapons.decide(), gameState) != None: return
         self.move(gameState)    
             
 
