@@ -1,4 +1,4 @@
-from util import classyList
+from util import classyList as store
 
 ''' items.py: IAI Project
   * Provides outlines of what each item-class
@@ -153,33 +153,7 @@ RareCandy     = Candy('rare candy', 5, 100)
 CrushingCandy = Candy('heavy candy', 15, 500)
 '''========================== STORE CLASS ======================== '''
 '''
-'''
-class store(classyList):
-    __slots__ = []
-    ''' isItem:
-      * Returns true iff the SuperClass for the given item is Super Item
-    '''
-    def isItem(self, item):
-        return type(item).__base__ is SuperItem
-        
-    ''' __getItem__:
-      * Defines the behavior around indexing into the list
-      * Supports string, type, and int indexing
-    '''
-    def __getitem__(self, key):
-        if type(key) is str:
-            return [item for item in self if self.isItem(item) and item.name == key][0]
-        else: classyList.__getitem__(self, key)
-        
-    
-    ''' getWeight:
-      * Returns the sum of the weight of all sub-SuperItems
-    '''
-    def getWeight(self, adding=0):
-        return sum([item.getWeight() for item in self 
-                    if self.isItem(item)]) + adding
-                    
-
+'''  
 
 # Item of great export
 mainStore = store([ Pistol, PistolAmmo,

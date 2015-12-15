@@ -222,13 +222,29 @@ class pmCounter(dict):
 class classyList(list):
     __slots__ = []       
     def __getitem__(self, key):
-        if type(key) == int:
+        if type(key) is str:
+            return [item for item in self if self.isItem(item) and item.name == key][0]
+        elif type(key) == int:
             return list.__getitem__(self, key)
         elif type(key) == type:
             return [value for value in self if  type(value) == key]
             
     def getClasses(self):
         return list(set([type(value) for value in self]))
+        
+    ''' isItem:
+      * Returns true iff the SuperClass for the given item is Super Item
+    '''
+    def isItem(self, item):
+        return type(item).__base__ is SuperItem
+        
+    
+    ''' getWeight:
+      * Returns the sum of the weight of all sub-SuperItems
+    '''
+    def getWeight(self, adding=0):
+        return sum([item.getWeight() for item in self 
+                    if self.isItem(item)]) + adding
         
 ''' manDistance:
   * Returns the manhattan distance between two points
