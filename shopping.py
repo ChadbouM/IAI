@@ -30,59 +30,69 @@ class shopping:
         initial = []
         output = classyList(initial)
         # for key in self.calculate(theWisdom):
-        # 	currentItem = theWisdom.store[key]
-        # 	if output.getWeight(currentItem.getWeight()) <= invSize:
-        # 		if type(currentItem) == Weapon: 
-        # 			counter = 0
-        # 			for item in output:
-        # 				if type(item) == Weapon:
-        # 					counter += 1
-        # 			if counter < 2:
-        # 				output += [currentItem]
-        # 		else:
-        # 			output += [currentItem]
+        #     currentItem = theWisdom.store[key]
+        #     if output.getWeight(currentItem.getWeight()) <= invSize:
+        #         if type(currentItem) == Weapon: 
+        #             counter = 0
+        #             for item in output:
+        #                 if type(item) == Weapon:
+        #                     counter += 1
+        #             if counter < 2:
+        #                 output += [currentItem]
+        #         else:
+        #             output += [currentItem]
         # print output
         # return output
 
         temp = theWisdom
-        while output.getWeight() <= invSize:
-        	bestItem = self.calculate(temp)[0]
-        	# print "weapon?:", temp.store[bestItem]
-        	# print "bestItem:", output
-        	if type(temp.store[bestItem]) is Weapon: 
-        		counter = 0
-        		for item in output:
-        			if type(temp.store[item]) is Weapon:
-        				counter += 1
-        		if counter < 2:
-        			output += [bestItem]
-        			temp.store.remove(temp.store[bestItem]) # here is a remove
-        		else:
-        			for i in temp.store:
-        				if type(temp.store[i]) is Weapon:
-        					temp.store.remove(temp.store[i]) # here is a remove
-        	elif type(temp.store[bestItem]) is Ammo: # BIGGEST PROBLEM
-        		if temp.store[bestItem].getType() in output:
-        			temp.featuredVal.tagSub(bestItem, 2)
-        			output += [bestItem]
-        		else:
-        			temp.featuredVal.tagSub(bestItem, 2)
-        	else:
-        		output += [bestItem]
+        while output.getWeight() + self.smallest(theWisdom.store) < invSize:
+            print output.getWeight()
+            bestItem = self.calculate(output, temp)[0]
+            # print "weapon?:", temp.store[bestItem]
+            # print "bestItem:", output
+            if type(temp.store[bestItem]) is Weapon: 
+                counter = 0
+                for item in output:
+                    if type(temp.store[item]) is Weapon:
+                        counter += 1
+                if counter < 2:
+                    output += [bestItem]
+                    temp.store.remove(temp.store[bestItem]) # here is a remove
+                else:
+                    for i in temp.store:
+                        if type(temp.store[i]) is Weapon:
+                            temp.store.remove(temp.store[i]) # here is a remove
+            elif type(temp.store[bestItem]) is Ammo: # BIGGEST PROBLEM
+                if temp.store[bestItem].getType() in output:
+                    temp.featuredVal.tagSub(bestItem, 2)
+                    output += [bestItem]
+                else:
+                    temp.featuredVal.tagSub(bestItem, 2)
+            else:
+                output += [bestItem]
         # print output
         return output
-    	
+        
+    ''' smallest:
+      * Returns the weight of the smallest item in the given store
+    '''
+    def smallest(self, theStore):
+        outp = float('inf')
+        for item in theStore:
+            outp = min(outp, item.weight)
+        return outp
+        
     ''' calculate:
      * Returns a list of tuples sorted by the values in the
      * temp dictionary
      * Also calculates the importance of an item based on its
      * usage and featured value
     '''
-    def calculate(self, theWisdom):
-    	temp = []
+    def calculate(self, current, theWisdom):
+        temp = []
         for item in theWisdom.store:
             name = item.getName()
-            value = theWisdom.featuredVal[name] * theWisdom.relativeUse[name] + 1
-            temp += [(name, value)]
+            value = theWisdom.featuredVal[name] * theWisdom.relativeUse[name] + 1 #ALGORITHM
+            temp += [(item, value)]
         # print temp
         return [ key for key, value in sorted(temp, key=itemgetter(1), reverse=True) ]

@@ -267,7 +267,7 @@ class classyList(list):
       * Returns the sum of the weight of all sub-SuperItems
     '''
     def getWeight(self, adding=0):
-        return sum([item.getWeight() for item in self 
+        return sum([item.weight for item in self 
                     if self.isItem(item)]) + adding
         
 ''' manDistance:

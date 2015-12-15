@@ -37,7 +37,7 @@ def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
 
         theWisdom = theWisdom.theSage(theScore, theRemains) # instance of wisdom class
         
-        # print str(runs) + " Runs remaining: " + str(theScore[1])
+        print str(runs) + " Runs remaining: " + str(theScore[1])
         
         if 0 < runs: runs -= 1
 
