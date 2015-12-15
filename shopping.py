@@ -45,11 +45,8 @@ class shopping:
         # return output
 
         temp = theWisdom
-        while output.getWeight() + self.smallest(theWisdom.store) < invSize:
-            print output.getWeight()
+        while output.getWeight() <= invSize:
             bestItem = self.calculate(output, temp)[0]
-            # print "weapon?:", temp.store[bestItem]
-            # print "bestItem:", output
             if type(temp.store[bestItem]) is Weapon: 
                 counter = 0
                 for item in output:
@@ -70,17 +67,7 @@ class shopping:
                     temp.featuredVal.tagSub(bestItem, 2)
             else:
                 output += [bestItem]
-        # print output
         return output
-        
-    ''' smallest:
-      * Returns the weight of the smallest item in the given store
-    '''
-    def smallest(self, theStore):
-        outp = float('inf')
-        for item in theStore:
-            outp = min(outp, item.weight)
-        return outp
         
     ''' calculate:
      * Returns a list of tuples sorted by the values in the

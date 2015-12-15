@@ -73,9 +73,9 @@ class heroAgent:
     
     def useKit(self, gameState):
         kits = self.wisdom.store[Medkit]
-        bestKit  = kits[0]
-        bestDiff = -float('inf')
         for i in range(len(kits)):
+            bestKit  = kits[0]
+            bestDiff = -float('inf')
             for kit in kits:
                 thisDiff = kit.healPower - self.health
                 if bestDiff < 0 and 0 < thisDiff:
@@ -87,8 +87,6 @@ class heroAgent:
                 return bestKit
             else: 
                 kits.remove(bestKit)
-                print kits
-                print self.wisdom.store[Medkit]
         return None
                 
             
