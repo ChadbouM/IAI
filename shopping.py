@@ -29,21 +29,6 @@ class shopping:
     def shopping(self, invSize, theWisdom):
         initial = []
         output = classyList(initial)
-        # for key in self.calculate(theWisdom):
-        #     currentItem = theWisdom.store[key]
-        #     if output.getWeight(currentItem.getWeight()) <= invSize:
-        #         if type(currentItem) == Weapon: 
-        #             counter = 0
-        #             for item in output:
-        #                 if type(item) == Weapon:
-        #                     counter += 1
-        #             if counter < 2:
-        #                 output += [currentItem]
-        #         else:
-        #             output += [currentItem]
-        # print output
-        # return output
-
         temp = theWisdom
         while output.getWeight() <= invSize:
             bestItem = self.calculate(output, temp)[0]
@@ -67,6 +52,7 @@ class shopping:
                     temp.featuredVal.tagSub(bestItem, 2)
             else:
                 output += [bestItem]
+
         return output
         
     ''' calculate:
@@ -81,5 +67,4 @@ class shopping:
             name = item.getName()
             value = theWisdom.featuredVal[name] * theWisdom.relativeUse[name] + 1 #ALGORITHM
             temp += [(item, value)]
-        # print temp
         return [ key for key, value in sorted(temp, key=itemgetter(1), reverse=True) ]
