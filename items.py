@@ -1,4 +1,4 @@
-from util import classyList as store
+from util import SuperItem, classyList as store
 
 ''' items.py: IAI Project
   * Provides outlines of what each item-class
@@ -12,29 +12,6 @@ from util import classyList as store
   * *
   * Last Edited: 12/13/15
 '''
-
-''' SuperItem:
-  * An abstract superclass for all items
-'''
-class SuperItem(object):
-
-    def __init__(self, name=None, weight=0):
-        # Item name as string, used for ID
-        self.name   = name
-        # Representation of space taken by the item
-        self.weight = weight
-
-    ''' getName:
-      * Returns the name of the object
-    '''
-    def getName(self):
-        return self.name
-
-    ''' getWeight:
-      * Returns the name of the object
-    '''
-    def getWeight(self):
-        return self.weight
 
 ''' ======================== SEMI-ABSTRACT CLASSES ======================== '''
 ''' Medkit:

@@ -1,5 +1,6 @@
 from random import choice
 
+
 ''' util.py: IAI Project
   * A small collection of custom mapping agents 
   * and other utilities used for various tasks
@@ -215,6 +216,29 @@ class pmCounter(dict):
                 rtrn += [(key, pos)]
         if len(rtrn) == 0: return None
         return choice(rtrn)
+
+''' SuperItem:
+  * An abstract superclass for all items
+'''
+class SuperItem(object):
+
+    def __init__(self, name=None, weight=0):
+        # Item name as string, used for ID
+        self.name   = name
+        # Representation of space taken by the item
+        self.weight = weight
+
+    ''' getName:
+      * Returns the name of the object
+    '''
+    def getName(self):
+        return self.name
+
+    ''' getWeight:
+      * Returns the name of the object
+    '''
+    def getWeight(self):
+        return self.weight
         
 ''' classyList:
   * A list with type based functions.
