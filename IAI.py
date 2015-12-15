@@ -17,6 +17,8 @@ import util
 __DFLTINVSZE__ = 100
 __DFLTRUNCNT__ = 100
 
+theFile = open('Output.txt', 'w')
+
 def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
     theWisdom = wiseClass.wisdom(items.mainStore)
     theMap    = mapClass.LargeSwarmMap
@@ -45,12 +47,20 @@ def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
         if theOutcome: theOutcome = "WIN  Score("
         else:          theOutcome = "LOSS Score("
        
-        print "Run: " + (str(theRuns) + ";").ljust(7) + theOutcome + str(theScore) + ")"
-        print "\t\tAverage: " + str(float(theAverage)/theRuns)
+        theFirstLine  = "Run: " + (str(theRuns) + ";").ljust(7) + theOutcome + str(theScore) + ")"
+        theSecondLine = "\t\tAverage: " + str(float(theAverage)/theRuns)
+        
+        theFile.write(theFirstLine + '\n')
+        theFile.write(theSecondLine + '\n')
+        
+        print theFirstLine
+        print theSecondLine
         
         theLast = theEquipment
         if 0 < runs: runs -= 1
         
+    theFile.write(str(theLast))
+    theFile.close()
     print theLast
 
 IAI()
