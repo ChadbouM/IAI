@@ -1,8 +1,8 @@
 import sys
-from items import store, Weapon
+from items import Weapon, Ammo, Medkit
 from wiseClass import wisdom
 from operator import itemgetter
-import pdb
+from util import classyList
 
 ''' shopping.py: IAI Project
   * 
@@ -28,20 +28,48 @@ class shopping:
     '''
     def shopping(self, invSize, theWisdom):
         initial = []
-        output = store(initial)
-        for key in self.calculate(theWisdom):
-        	currentItem = theWisdom.store[key]
-        	if output.getWeight(currentItem.getWeight()) <= invSize:
-        		if type(currentItem) == Weapon: 
-        			counter = 0
-        			for item in output:
-        				if type(item) == Weapon:
-        					counter += 1
-        			if counter < 2:
-        				output += [currentItem]
+        output = classyList(initial)
+        # for key in self.calculate(theWisdom):
+        # 	currentItem = theWisdom.store[key]
+        # 	if output.getWeight(currentItem.getWeight()) <= invSize:
+        # 		if type(currentItem) == Weapon: 
+        # 			counter = 0
+        # 			for item in output:
+        # 				if type(item) == Weapon:
+        # 					counter += 1
+        # 			if counter < 2:
+        # 				output += [currentItem]
+        # 		else:
+        # 			output += [currentItem]
+        # print output
+        # return output
+
+        temp = theWisdom
+        while output.getWeight() <= invSize:
+        	bestItem = self.calculate(temp)[0]
+        	# print "weapon?:", temp.store[bestItem]
+        	# print "bestItem:", output
+        	if type(temp.store[bestItem]) is Weapon: 
+        		counter = 0
+        		for item in output:
+        			if type(temp.store[item]) is Weapon:
+        				counter += 1
+        		if counter < 2:
+        			output += [bestItem]
+        			temp.store.remove(temp.store[bestItem]) # here is a remove
         		else:
-        			output += [currentItem]
-        print output
+        			for i in temp.store:
+        				if type(temp.store[i]) is Weapon:
+        					temp.store.remove(temp.store[i]) # here is a remove
+        	elif type(temp.store[bestItem]) is Ammo: # BIGGEST PROBLEM
+        		if temp.store[bestItem].getType() in output:
+        			temp.featuredVal.tagSub(bestItem, 2)
+        			output += [bestItem]
+        		else:
+        			temp.featuredVal.tagSub(bestItem, 2)
+        	else:
+        		output += [bestItem]
+        # print output
         return output
     	
     ''' calculate:
