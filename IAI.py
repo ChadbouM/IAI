@@ -15,7 +15,7 @@ import util
   * Last Edited: 12/13/15
 '''
 __DFLTINVSZE__ = 100
-__DFLTRUNCNT__ = 100
+__DFLTRUNCNT__ = 50
 
 theFile = open('Output.txt', 'w')
 

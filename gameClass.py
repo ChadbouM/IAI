@@ -198,7 +198,7 @@ class gameState:
         for item in self.hero.invtry[Candy]:
             candypoints += item.points
         victory = self.hero.position == self.map.levelExit and not self.hero.health <= 0
-        value   = 100 * (self.maxVil - len(self.vlns.positions)) - (5 * self.time) #TODO less arbitrary
+        value   = 1000 * (self.maxVil - len(self.vlns.positions)) - (5 * self.time) #TODO less arbitrary
         return (victory, value + candypoints)
 
     ''' advance:

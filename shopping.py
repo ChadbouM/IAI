@@ -3,6 +3,7 @@ from items import Weapon, Ammo, Medkit
 from wiseClass import wisdom
 from operator import itemgetter
 from util import classyList
+from random import randint, choice
 
 ''' shopping.py: IAI Project
   * 
@@ -31,6 +32,7 @@ class shopping:
         output = classyList(initial)
         temp = theWisdom
         while output.getWeight() <= invSize:
+            if randint(0,25) == 1: output += [choice(temp.store)]
             bestItem = self.calculate(output, temp)[0]
             if type(temp.store[bestItem]) is Weapon: 
                 counter = 0
@@ -65,6 +67,9 @@ class shopping:
         temp = []
         for item in theWisdom.store:
             name = item.getName()
-            value = theWisdom.featuredVal[name] * theWisdom.relativeUse[name] + 1 #ALGORITHM
+            ex = 0
+            if type(item) is Ammo and item.type in [item.name for item in theWisdom.store[Weapon]]: ex = 10000
+            value = ex + ((theWisdom.featuredVal[name] * theWisdom.relativeUse[name] + 1)/
+                            (len([item for item in  current if item.name == name]) + 1)) / item.weight
             temp += [(item, value)]
         return [ key for key, value in sorted(temp, key=itemgetter(1), reverse=True) ]

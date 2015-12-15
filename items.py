@@ -127,7 +127,7 @@ HeavyMedkit = Medkit('major heal', 10, 75)
 
 TastyCandy    = Candy('candy', 1, 10)
 RareCandy     = Candy('rare candy', 5, 100)
-CrushingCandy = Candy('heavy candy', 15, 500)
+CrushingCandy = Candy('heavy candy', 15, 300)
 '''========================== STORE CLASS ======================== '''
 '''
 '''  
