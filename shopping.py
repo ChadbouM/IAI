@@ -41,7 +41,6 @@ class shopping:
         				output += [currentItem]
         		else:
         			output += [currentItem]
-        print output
         return output
     	
     ''' calculate:
@@ -56,5 +55,4 @@ class shopping:
             name = item.getName()
             value = theWisdom.featuredVal[name] * theWisdom.relativeUse[name] + 1
             temp += [(name, value)]
-        # print temp
         return [ key for key, value in sorted(temp, key=itemgetter(1), reverse=True) ]

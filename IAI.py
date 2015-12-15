@@ -20,13 +20,14 @@ __DFLTRUNCNT__ = 100
 def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
     theWisdom = wiseClass.wisdom(items.mainStore)
     theMap    = mapClass.LargeSwarmMap
+    theAverage = 0
+    theRuns = 0
     
+    theLast = None
     while runs:
         theShop   = shopping.shopping()
         theEquipment = theShop.shopping(invSize, theWisdom)
         theGame   = gameClass.gameState(theMap, theEquipment, theWisdom)
-
-        print theEquipment.getClasses()
         
         while not theGame.gameOver():
             theGame.advance()
@@ -36,10 +37,21 @@ def IAI(invSize=__DFLTINVSZE__, runs=__DFLTRUNCNT__):
         theRemains = theGame.hero.invtry # is this the remaining inventory after a game?
 
         theWisdom = theWisdom.theSage(theScore, theRemains) # instance of wisdom class
+        theOutcome, theScore = theScore
         
-        # print str(runs) + " Runs remaining: " + str(theScore[1])
+        theAverage += theScore
+        theRuns += 1
         
+        if theOutcome: theOutcome = "WIN  Score("
+        else:          theOutcome = "LOSS Score("
+       
+        print "Run: " + (str(theRuns) + ";").ljust(7) + theOutcome + str(theScore) + ")"
+        print "\t\tAverage: " + str(float(theAverage)/theRuns)
+        
+        theLast = theEquipment
         if 0 < runs: runs -= 1
+        
+    print theLast
 
 IAI()
     

@@ -87,8 +87,6 @@ class heroAgent:
                 return bestKit
             else: 
                 kits.remove(bestKit)
-                print kits
-                print self.wisdom.store[Medkit]
         return None
                 
             

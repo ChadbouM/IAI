@@ -253,6 +253,15 @@ class classyList(list):
         elif type(key) == type:
             return [value for value in self if  type(value) == key]
             
+    def __repr__(self):
+        return "classyList()"
+    
+    def __str__(self):
+        out = "[ "
+        out += self[0].name
+        for item in self[1:]: out += ", " + item.name
+        return out + "]"
+            
     def getClasses(self):
         return list(set([type(value) for value in self]))
         
