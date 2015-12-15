@@ -194,9 +194,12 @@ class gameState:
       * currently met and false otherwise
     '''
     def score(self):
+        candypoints = 0
+        for item in self.hero.invtry[Candy]:
+            candypoints += item.points
         victory = self.hero.position == self.map.levelExit and not self.hero.health <= 0
         value   = 100 * (self.maxVil - len(self.vlns.positions)) - (5 * self.time) #TODO less arbitrary
-        return (victory, value)
+        return (victory, value + candypoints)
 
     ''' advance:
       * Progresses the game state forward by one unit of time.
