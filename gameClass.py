@@ -43,13 +43,17 @@ class heroAgent:
                         itemUse[item] += 1
                         itemVal.tagAdd(ammo, 1)
                         itemUse[ammo] += 1
-                        del self.invtry[ammo.name] # delete one use item
+                        self.invtry.remove(ammo) # delete one use item
                         return True # ammo was found for gun
                 return None # ammo wasn't found for gun
+            elif type(item) is Ammo:
+                itemVal.tagAdd(item, 1)
+                itemUse[item] += 1
+                self.invtry.remove(item) # removering amu when usssed
+                return True
             else: # accounts for health items (which are one use items)
                 itemVal.tagAdd(item, 1)
                 itemUse[item] += 1
-                del self.invtry[item.name] # delete one use item
                 return True
         else: # item wasn't found
             itemVal.tagAdd(item, 10)
@@ -80,7 +84,6 @@ class heroAgent:
                 thisDiff = min(abs(thisDiff), abs(bestDiff))
             self.use(bestKit, gameState)
             if bestKit in self.invtry:
-                print "check"
                 return bestKit
             else: 
                 kits.remove(bestKit)
