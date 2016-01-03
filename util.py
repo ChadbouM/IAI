@@ -227,18 +227,6 @@ class SuperItem(object):
         self.name   = name
         # Representation of space taken by the item
         self.weight = weight
-
-    ''' getName:
-      * Returns the name of the object
-    '''
-    def getName(self):
-        return self.name
-
-    ''' getWeight:
-      * Returns the name of the object
-    '''
-    def getWeight(self):
-        return self.weight
         
 ''' classyList:
   * A list with type based functions.

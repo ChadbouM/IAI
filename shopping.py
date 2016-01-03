@@ -14,7 +14,7 @@ from random import randint, choice
   * Mateo Freyre
 & * Tim Webber
   * *
-  * Last Edited: 12/12/15
+  * Last Edited: 1/2/16
 '''
 
 ''' shopping class:
@@ -32,7 +32,6 @@ class shopping:
         output = classyList(initial)
         temp = theWisdom
         while output.getWeight() <= invSize:
-            if randint(0,25) == 1: output += [choice(temp.store)]
             bestItem = self.calculate(output, temp)[0]
             if type(temp.store[bestItem]) is Weapon: 
                 counter = 0
@@ -41,12 +40,12 @@ class shopping:
                         counter += 1
                 if counter < 2:
                     output += [bestItem]
-                    temp.store.remove(temp.store[bestItem]) # here is a remove
+                    temp.store.remove(temp.store[bestItem]) 
                 else:
                     for i in temp.store:
                         if type(temp.store[i]) is Weapon:
-                            temp.store.remove(temp.store[i]) # here is a remove
-            elif type(temp.store[bestItem]) is Ammo: # BIGGEST PROBLEM
+                            temp.store.remove(temp.store[i]) 
+            elif type(temp.store[bestItem]) is Ammo:
                 if temp.store[bestItem].getType() in output:
                     temp.featuredVal.tagSub(bestItem, 2)
                     output += [bestItem]
@@ -66,10 +65,7 @@ class shopping:
     def calculate(self, current, theWisdom):
         temp = []
         for item in theWisdom.store:
-            name = item.getName()
-            ex = 0
-            if type(item) is Ammo and item.type in [item.name for item in theWisdom.store[Weapon]]: ex = 10000
-            value = ex + ((theWisdom.featuredVal[name] * theWisdom.relativeUse[name] + 1)/
-                            (len([item for item in  current if item.name == name]) + 1)) / item.weight
+            name = item.name
+            value = theWisdom.featuredVal[name] * theWisdom.relativeUse[name] + 1
             temp += [(item, value)]
         return [ key for key, value in sorted(temp, key=itemgetter(1), reverse=True) ]

@@ -8,23 +8,7 @@ Authors:
     Tim Webber
     Mateo Freye
 
-Last Edited: 12/13/15
-
-TODO:
-  * sage.py with a sage Class or Function inside
-  * gameClass.py::villianAdvance (TIM)
-  * get it running
-  * Algorithm Tweaking
-  * * inside 'Sage'
-  * * inside 'Wisdom'
-  * * inside 'Shop'
-  * * inside 'Game/Score'
-  * * better items?
-  * * better maps?
-  * Coffee
-  * Final README (and write-up? are we sure this is a thing) 
-  * Success
-  * Sleep
+Last Edited: 1/2/16
 
 Files:
     * IAI.py:
@@ -83,7 +67,3 @@ DESIGN ELEMENTS:
       * position of the player and 'listofTargets' a list of posn tuples 
 	  * representing the positions of the point of enemies, Returns a list of
       * all enemy positions (int, int) hit by the weapon. Position of first
-      * impact is always in the returned list.
-    
-ALGORITHIM:
-    # TODO

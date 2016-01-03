@@ -15,7 +15,7 @@ from items import *
   * Mateo Freyre
 & * Tim Webber
   * *
-  * Last Edited: 12/12/15
+  * Last Edited: 1/2/16
 '''
 
 ''' wisdom:
@@ -77,10 +77,10 @@ class wisdom:
         for item in remainingInv:
             if score[0]: # if hero wins
                 if self.relativeUse[item] > 0: # if item was used increase its importance
-                    self.featuredVal[item] += (self.relativeUse[item] + 1) * score[1]/3000
+                    self.featuredVal.tagAdd(item, 1 * score[1])
                 else: # if item wasn't used decrease importance
                     self.featuredVal.tagSub(item, 10)
             else: # if hero loses
-                self.featuredVal[item] /= 2
+                self.featuredVal.tagSub(item, 100 * score[1])
 
         return self

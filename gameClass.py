@@ -12,7 +12,7 @@ from random import choice
   * Mateo Freyre
 & * Tim Webber
   * *
-  * Last Edited: 12/13/15
+  * Last Edited: 1/2/16
 '''
 
 ''' heroAgent:
@@ -38,7 +38,7 @@ class heroAgent:
         if item in self.invtry: 
             if type(item) is Weapon:
                 for ammo in self.invtry[Ammo]: # see if we have the right ammo type
-                    if ammo.getType() == item.getName() or ammo.getType() == 'GENERIC':
+                    if ammo.getType() == item.name or ammo.getType() == 'GENERIC':
                         itemVal.tagAdd(item, 1)
                         itemUse[item] += 1
                         itemVal.tagAdd(ammo, 1)
@@ -49,7 +49,7 @@ class heroAgent:
             elif type(item) is Ammo:
                 itemVal.tagAdd(item, 1)
                 itemUse[item] += 1
-                self.invtry.remove(item) # removering amu when usssed
+                self.invtry.remove(item) # removering amo when usssed
                 return True
             else: # accounts for health items (which are one use items)
                 itemVal.tagAdd(item, 1)
@@ -71,6 +71,10 @@ class heroAgent:
         if self.position in gameState.getVilPosn():
             gameState.vilKill(self.position)
     
+    ''' useKit:
+      * A small piece of logic surrounding the use of medkits.
+      * attempts to find the most appropriate medkit.
+    '''
     def useKit(self, gameState):
         kits = self.wisdom.store[Medkit]
         for i in range(len(kits)):
@@ -93,7 +97,7 @@ class heroAgent:
             
             
     ''' advance:
-      * Progresses the hero forward acording
+      * Progresses the hero forward according
       * to a basic set of rules based upon villian position
       * and moving north
     '''
@@ -198,7 +202,7 @@ class gameState:
         for item in self.hero.invtry[Candy]:
             candypoints += item.points
         victory = self.hero.position == self.map.levelExit and not self.hero.health <= 0
-        value   = 1000 * (self.maxVil - len(self.vlns.positions)) - (5 * self.time) #TODO less arbitrary
+        value   = 100 * (self.maxVil - len(self.vlns.positions)) - (5 * self.time)
         return (victory, value + candypoints)
 
     ''' advance:

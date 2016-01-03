@@ -10,7 +10,7 @@ from util import SuperItem, classyList as store
   * Mateo Freyre
 & * Tim Webber
   * *
-  * Last Edited: 12/13/15
+  * Last Edited: 1/2/16
 '''
 
 ''' ======================== SEMI-ABSTRACT CLASSES ======================== '''
@@ -127,7 +127,7 @@ HeavyMedkit = Medkit('major heal', 10, 75)
 
 TastyCandy    = Candy('candy', 1, 10)
 RareCandy     = Candy('rare candy', 5, 100)
-CrushingCandy = Candy('heavy candy', 15, 300)
+CrushingCandy = Candy('heavy candy', 15, 500)
 '''========================== STORE CLASS ======================== '''
 '''
 '''  
