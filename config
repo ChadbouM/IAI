@@ -1,0 +1,20 @@
+# IAI Configurations File:
+# Used to control settings and features in the IAI game
+# Last Edited: 01/10/16
+
+#### Graphics Options ####
+
+Screen_Size : (800, 800)
+Font        : (Times New Roman, 14)
+
+#### Keybinds Options ####
+
+Menu_Up      : [ Up,        w ]
+Menu_Down    : [ Down,      s ]
+Menu_Left    : [ Left,      a ]
+Menu_Right   : [ Right,     d ]
+
+Menu_Select  : [ Return,    space ]
+Menu_Back    : [ BackSpace, Shift_L]
+
+#### EOF ####
