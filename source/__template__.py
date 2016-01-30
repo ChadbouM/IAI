@@ -11,8 +11,6 @@ import util
 
 #### FUNCTIONS ####
 
-#### LOCAL TESTING ####
-
 ### SCRIPT ####
  
 

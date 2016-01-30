@@ -1,9 +1,12 @@
-IAI 2.0.0
+IAI 2.0.0*
 
 A project in AI. Help an agent learn the best strategies as they face an
 endless gauntlet of foes! The IAI agent moves through a world, learning and 
 shopping on their own, while allowing the player to nudge them toward certain
 behaviors.
+
+ * To see the Original version of this project view the "Legacy" branch of the 
+repo found at: http://www.github.com/chadbouM/IAI/tree/legacy
 
 # DEPENDENCIES:
 python 2.7
@@ -14,7 +17,8 @@ Tkinter
 
 Currently building a framework for the 2.0 system. Have created a functional
 Map Editor, which uses a background image and time dimensions to create a file
-for the game.
+for the game. Currently developing the addition of Enemies and Pick-Ups to the
+Map.
 
 The game itself will involve importing elements from the original IAI, as well
 as redesigning other components. Which will be added as the rest of the project
@@ -26,9 +30,13 @@ takes shape.
 (Not Implemented)
 
 --Map-Creation-- [Creates a new Map File and opens the editor]
+> CreateMap.bat
+or
 > python .\source\IAI.py --as create
 
 ---Map-Editor--- [Loads a Map file from the source/Maps/ directory]
+> EditMap.bat
+or 
 > python .\source\IAI.py --as edit
 
 Currently the Map Editor allows the placement of walls onto a background image.
@@ -36,7 +44,6 @@ Currently the Map Editor allows the placement of walls onto a background image.
 # TODO/UPCOMING #
 
 > Added Editor Features
-> Root Directory Shortcuts
 > The IAI Game
 
 # CREDITS: #

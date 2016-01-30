@@ -3,7 +3,7 @@
   * part of the IAI project.
   * Contains the GameState class which represents and controls the game.
   * *
-  * Last Edited: 01/16/16
+  * Last Edited: 01/30/16
 """
 # IMPORTS:
 from   mapClass import Map
@@ -48,6 +48,7 @@ class Hero(object):
     def tick(self, cmd): pass
     
 """ Level: the class representation of a game level
+  * A Container for the map class which keeps track of the active objects
 """
 class Level(object):
     __slots__ =  [ 'map', 'objects' ]
@@ -55,7 +56,8 @@ class Level(object):
     """
     def __init__(self):
         self.map     = Map()
-        self.objects = []
+        self.objects = self.map.spawn
+        # TODO Instantiate Objects
         
     """ tick: Advances the level and its contents forward by one frame
     """
@@ -73,8 +75,6 @@ class Shop(object):
     
 
 #### FUNCTIONS ####
-
-#### LOCAL TESTING ####
 
 ### SCRIPT ####
  

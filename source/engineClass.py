@@ -2,10 +2,10 @@
 """ engineClass.py: the Tkinter based graphical engine used for the Game
   * Part of the IAI project.
   * *
-  * Last Edited: 1/18/16
+  * Last Edited: 01/30/16
 """
 # IMPORTS:
-from   os        import path, remove, rmdir
+from   os        import path
 from   Tkinter   import * 
 from   gameClass import GameState
 import util
@@ -74,7 +74,7 @@ class Prompt(Mode):
                                               outline = 'white',
                                               width   = 3) ]
         
-    """ __keypress__
+    """ __keypress__:
     """
     def __keypress__(self, event):
         if   event.keysym == 'Return':        self.__select__()
@@ -122,6 +122,7 @@ class ImgFileName(Prompt):
                                 text   = "File Not Found! Try Again.",
                                 font   = util.config.settings['Font'],
                                 fill   = 'white' )
+
 """ NewFileName: The prompt-class for the new Map name.
   * A full mode; Asks for the new directory name to be associated with this map
 """
@@ -147,6 +148,7 @@ class NewFileName(Prompt):
                                 text   = "Already Exists! Try Again.",
                                 font   = util.config.settings['Font'],
                                 fill   = 'white' )
+
 """ TileDimension: The prompt-class for the Tile dimensions Prompt
   * A full mode; Asks for the dimension of the map in terms of tiles.
 """
@@ -177,6 +179,7 @@ class TileDimension(Prompt):
                                                     (x, y))
         next_mode = Editor(self.master)
         self.master(next_mode)
+
 """ SaveAs: The prompt-class for the saveAs screen.
   * A full mode; Asks for the new directory name to be associated with this map
 """
@@ -204,7 +207,8 @@ class SaveAs(Prompt):
                                 text   = "Already Exists! Try Again.",
                                 font   = util.config.settings['Font'],
                                 fill   = 'white' )
-""" 
+
+""" LoadMapName:
 """
 class LoadMapName(Prompt):
     errored = False
@@ -226,8 +230,12 @@ class LoadMapName(Prompt):
                                     int(self['height'])/2 + 20),
                                 text   = "Map not Found! Try Again.",
                                 font   = util.config.settings['Font'],
-                                fill   = 'white' )
-                                
+                                fill   = 'white' ) 
+   
+    ##############################
+############ EDITOR CLASS ############
+    ##############################
+   
 """ Editor:
 """
 class Editor(Mode):
@@ -267,22 +275,22 @@ class Editor(Mode):
     """
     def __keypress__(self, event):
         if   event.keysym in util.config.keys['Menu_Up']:     
-            if   self.lock: self.map.grid[self.posit[0]][self.posit[1]] =   'Up'
+            if   self.lock: self.map.walls[self.posit[0]][self.posit[1]] =   'Up'
             elif self.menu: self.menu_pos[1] -= 1
             else:
                 self.posit[1] -= 1
         elif event.keysym in util.config.keys['Menu_Down']:
-            if   self.lock: self.map.grid[self.posit[0]][self.posit[1]] = 'Down'
+            if   self.lock: self.map.walls[self.posit[0]][self.posit[1]] = 'Down'
             elif self.menu: self.menu_pos[1] += 1
             else:
                 self.posit[1] += 1
         elif event.keysym in util.config.keys['Menu_Left']:
-            if   self.lock: self.map.grid[self.posit[0]][self.posit[1]] = 'Left'
+            if   self.lock: self.map.walls[self.posit[0]][self.posit[1]] = 'Left'
             elif self.menu: pass
             else:
                 self.posit[0] -= 1
         elif event.keysym in util.config.keys['Menu_Right']:
-            if   self.lock: self.map.grid[self.posit[0]][self.posit[1]] ='Right'
+            if   self.lock: self.map.walls[self.posit[0]][self.posit[1]] ='Right'
             elif self.menu: pass
             else:
                 self.posit[0] += 1
@@ -322,7 +330,9 @@ class Editor(Mode):
         else:
                         self.menu_pos[1] = 0
                         self.menu = True
-        
+      
+    """ draw:
+    """
     def draw(self):
         [ self.delete(id) for id in self.mvis ]
         width       = int(self['width'])
@@ -345,7 +355,7 @@ class Editor(Mode):
         # Draw The Walls!
         for x in range(self.size[0]):
             for y in range(self.size[1]):
-                self.draw_bounds(x, y, self.map.grid[x][y])
+                self.draw_bounds(x, y, self.map.walls[x][y])
                 
         if self.menu:
             # Draw Menu-Box on right:
@@ -370,9 +380,7 @@ class Editor(Mode):
                                         height*0.25+20 + 75*self.menu_pos[1]),
                                     outline = 'white',
                                     width   = 2.0 )]
-                                       
-            
-                
+                                                 
     # Helper for draw which draws the walls            
     def draw_bounds(self, col, row, item):
         width       = int(self['width'])
@@ -420,7 +428,11 @@ class Editor(Mode):
                                     fill = color,
                                     width = 3)]
 
-######## GUI CLASS ########  
+######## END: GUI MODES ########                                      
+                                    
+    ###########################
+############ GUI CLASS ############
+    ###########################  
       
 """ GUI: The class representation of the GUI
 """
@@ -450,6 +462,10 @@ class GUI(Frame):
         self.pack(expand=True, fill='both')
         self.focus_force()
         
+    ##############################
+############ ENGINE CLASS ############
+    ##############################
+        
 """ Engine: The class representation of the Tkinter based game Engine
 """
 class Engine(object):
@@ -471,115 +487,4 @@ class Engine(object):
             self.GUI.mainloop()
     
 #### FUNCTIONS ####
-
-#### LOCAL TESTING ####
-
-"""
-"""
-def localTest():
-    util.sprint("\n#!# LOCAL TESTS: engineClass.py:")
-    # Creating Testing Resources
-    up, down, left, right, select=[Event(), Event(), Event(), Event(), Event()]
-    test          = util.Tester()
-    up.keysym     = 'Up'
-    down.keysym   = 'Down'
-    left.keysym   = 'Left'
-    right.keysym  = 'Right'
-    select.keysym = 'Return'
-    
-    
-    # Run a Simulation of the Editor
-    try:
-        util.sprint("Creating Editor Simulation")
-        # Build and Handle Prompt 1
-        engine = Engine(ImgFileName, "Testing!")
-        key = Event()
-        util.sprint("Simulating Image location prompt")
-        for char in util.local_path("rsc/basicMap.gif"):
-            if char == '.':    char = 'period'
-            elif char == '\\': char = 'backslash'
-            elif char == ':':  char = 'colon'
-            elif char == '/':  char = 'slash'
-            key.keysym = char
-            engine.GUI.mode.__keypress__(key)
-        engine.GUI.mode.__keypress__(select)
-    except:
-        util.sprint("Excepetion raised during prompt simulation 1")
-    test.assertion("ImgFileName completion test", 
-                    util.type_check(NewFileName, engine.GUI.mode),
-                    "Prompt failed to advance " + str(type(engine.GUI.mode)))
-    # Handle Prompt 2
-    try:
-        util.sprint("Simulating new file name prompt")
-        for char in "TeMp":
-            key.keysym = char
-            engine.GUI.mode.__keypress__(key)
-        engine.GUI.mode.__keypress__(select)
-    except:
-        util.sprint("Exception raised during prompt simulation 2")
-    test.assertion("NewFileName completion test",
-                    util.type_check(TileDimension, engine.GUI.mode),
-                    "Prompt failed to advance")
-    # Handle Prompt 3
-    try:        
-        util.sprint("Simulating tile dimension prompt")
-        for char in "10,11":
-            if char == ',': char = 'comma'
-            key.keysym = char
-            engine.GUI.mode.__keypress__(key)
-        engine.GUI.mode.__keypress__(select)
-    except:
-        util.sprint("Exception raised during prompt simulation 3")
-    test.assertion("TileDimension completion test",
-                    util.type_check(Editor, engine.GUI.mode),
-                    "Prompt failed to advance")
-    # Handle Main Editor:
-    try:
-        # Placing a 5 in [9][8] and a 4 in [9][10]
-        util.sprint("Simulating main Editor")
-        engine.GUI.mode.__keypress__(up)
-        engine.GUI.mode.__keypress__(left)
-        engine.GUI.mode.__keypress__(select)
-        engine.GUI.mode.__keypress__(down)
-        engine.GUI.mode.__keypress__(right)
-        engine.GUI.mode.__keypress__(select)
-        engine.GUI.mode.__keypress__(up)
-        engine.GUI.mode.__keypress__(up)
-        engine.GUI.mode.__keypress__(select)
-        engine.GUI.mode.__keypress__(down)
-        engine.GUI.mode.__keypress__(select)
-        key.keysym = 'BackSpace'
-        engine.GUI.mode.__keypress__(key)
-        engine.GUI.mode.__keypress__(down)
-        engine.GUI.mode.__keypress__(down)
-    except: 
-        util.sprint("Exception raised during prompt simulation 3")
-    engine.GUI.mode.__keypress__(select)
-    try:
-        test_file = open(util.local_path("source/Maps/TeMp/config"))
-    except: util.sprint("Exception raised while reading config file")
-    contents = test_file.readlines()
-    test.assertion("config contents test",
-                    int(contents[10].split(",")[9]) == 4 
-                        and int(contents[12].split(",")[9]) == 5,
-                    "bad config file contents")
-                    
-    # Clean-up testing resources
-    test_file.close()
-    remove(util.local_path('source/Maps/TeMp/config'))
-    remove(util.local_path('source/Maps/TeMp/background.gif'))
-    rmdir(util.local_path('source/Maps/TeMp'))
-    
-    # End Message
-    util.sprint("Engine testing Complete! Failed: [" + str(test.failed) + "/"
-            + str(test.run) + "]\n")
-            
-    # Return testing object
-    return test
-    
-### SCRIPT ####
-
-if __name__ == '__main__':
-    util.test()
-    results = localTest()
     
