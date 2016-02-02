@@ -17,8 +17,8 @@ Tkinter
 
 Currently building a framework for the 2.0 system. Have created a functional
 Map Editor, which uses a background image and time dimensions to create a file
-for the game. Currently developing the addition of Enemies and Pick-Ups to the
-Map.
+for the game and allows the addition of Enemies and Pick-Up Items(In Progress)
+
 
 The game itself will involve importing elements from the original IAI, as well
 as redesigning other components. Which will be added as the rest of the project
@@ -39,12 +39,30 @@ or
 or 
 > python .\source\IAI.py --as edit
 
-Currently the Map Editor allows the placement of walls onto a background image.
+Currently the Map Editor allows the placement of walls and enemies onto a 
+background generated from an image.
+
+# CONTROLS:
+
+WASD  -> Move Selection (When selecting a Tile -> Places Walls on Tile)
+Space -> Select
+E     -> Back
+Q     -> Alt
+(Can be Changed in the config file [Open in Text Editor])
+
+
+*  Use Return(Enter) to finish typing in a prompt
+** Alt: When Selecting a Tile            -> Removes Enemy from Tile
+		When Selecting an Item from Menu -> Edit selected Item
+
 
 # TODO/UPCOMING #
 
-> Added Editor Features
+> PickUp -> Item link
 > The IAI Game
+-- Will use the Maps made with the editor
+-- Built from principles and code found in the 'Legacy' project
+> Linux (Ubuntu) Testing/Launcher
 
 # CREDITS: #
 

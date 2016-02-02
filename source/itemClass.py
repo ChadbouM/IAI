@@ -2,11 +2,10 @@
 """ itemClassp.py
   * part of the IAI project. Contains the class representations of items.
   * *
-  * Last Edited: 01/28/16
+  * Last Edited: 02/02/16
 """
 # IMPORTS:
 import util
-from Tkinter import PhotoImage
 
 #### CLASSES ####
 
@@ -19,12 +18,15 @@ class MapItem(object):
     """
     def __init__(self, map, name, type, args):
         self.name  = name
-        self.image = PhotoImage(file=util.local_path("%s\\%s" % (map, name)))
+        self.image = util.load_image(
+                   util.local_path("source/Maps/%s/items/%s.gif" % (map, name)),
+                   alt=True)
+                                    
         util.type_check(dict, args)
         # Instantiate type with args.
         self.type = type
         for key, value in args.items():
-            self.__setattr__(key, value)
+            self.__setattr__(key.lower(), value)
 
     """ __repr__: Returns the printed representation of the class, used for save
       * Prints the type and name of the class followed by the field values.
@@ -52,7 +54,7 @@ class GameItem(object):
         self.weight = weight
         self.cost   = cost
         
-    # Items should all have a 'use' function    
+    # Items should all have a 'use' function
     def use(self): pass
     
 #   ######################   #
@@ -73,8 +75,6 @@ class Candy(GameItem):  pass
 
 
 #### FUNCTIONS ####
-
-#### LOCAL TESTING ####
 
 ### SCRIPT ####
  

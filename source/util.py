@@ -4,10 +4,11 @@
   * Includes common functions and configurations
   * Sizes and Keybinds based around the Tkinter module
   * *
-  * Last Edited: 01/30/16
+  * Last Edited: 01/31/16
 """
 # IMPORTS:
-from os import path
+from os  import path
+from PIL import Image, ImageTk
 
 #### CONSTANTS ####
 
@@ -139,6 +140,7 @@ class BitGrid(Grid):
     
 """ LoopPos: A class deriving from list, which represents a looping position
   * Initialized with the maximum values (exclusive) for each position
+  * TODO: use Grid as base. (involves switching out max in code)
 """
 class LoopPos(list):
     __slots__ = [ 'max' ]
@@ -170,7 +172,15 @@ def alphabet():
             'r','R','s','S','t','T','u','U','v','V','w','W','x','X','y','Y','z', 
             'Z','0','1','2','3','4','5','6','7','8','9','comma','period',
             'slash','backslash','space','BackSpace','colon', 'underscore']            
-            
+          
+""" load_image: Loads an Image from file, into the desired size.
+"""
+def load_image(file_name, dimensions=None, alt=False):
+    image_file = Image.open(file_name)
+    if dimensions != None: image_file = image_file.resize(dimensions)
+    if alt: image_file = ImageTk.PhotoImage(image_file)
+    return image_file
+   
 """ translate: Translates Tkinter key names into the character they represent
 """            
 def translate(input):

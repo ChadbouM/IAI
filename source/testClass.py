@@ -2,7 +2,7 @@
 """ testClass.py
   * part of the IAI project. Performs testing on the IAI modules.
   * *
-  * Last Edited: 01/30/16
+  * Last Edited: 02/02/16
 """
 # IMPORTS:
 import util
@@ -79,6 +79,9 @@ def test_util():
     tFile.close()
     tConfig = util.Config(file=tFileName)
     tPos    = util.LoopPos((5,10), (2, 3))
+    tGrid   = util.Grid(5, 5, "Hello")
+    tGrid[1][2] += "!"
+    tBGrid  = util.BitGrid()
     # Run Tests
     # Testing: type_check:
     for i in range(len(iList)):
@@ -150,9 +153,29 @@ def test_util():
     test.assertion("LoopPos Addition Test",
                     tPos[0] == 3 and tPos[1] == 4,
                     "Addition didn't loop correctly")
-    
-    
-    
+    # Testing Grid & BitGrid:
+    test.assertion("Grid Default Test",
+                    tGrid[0][0] == "Hello",
+                    "Default was not loaded into grid")
+    test.assertion("Grid Assignment Test",
+                    tGrid[1][2] == "Hello!",
+                    "Item did not assign to Grid")
+    test.assertion("BitGrid Default Test",
+                    tBGrid[0][0] == [],
+                    "BitGrid Default was %s not 0" % (str(tBGrid[0][0])))
+    tAssignments = [ 'Right', 'Left', 'Down', 'Up']
+    for i, t in enumerate(tAssignments):
+        tBGrid[0][0] = t
+        test.assertion("BitGrid Directional Assignment Test: %s" % (t),
+                        t in tBGrid[0][0],
+                        "Directional Assignment Failed for %s" % (t))
+        tBGrid[0][0] = 1 << i
+        test.assertion("BitGrid Numeric Assignment Test: %s" % (t),
+                        t in tBGrid[0][0],
+                        "Directional Assignment Failed for %s" % (t))
+        test.assertion("BitGrid Other Item Test %s" % (t),
+                        False not in [ o not in tBGrid[0][0] for o in tAssignments if not o == t],
+                        "Directional Assignment Failed for %s" % (t))    
     # Clean-up testing resources
     remove(util.local_path('temp_config'))
     
@@ -196,11 +219,11 @@ def test_maps():
     # Rearrange testing resources:
     for i in range(10):
         test_map.walls[randint(0,9)][randint(0,4)] = i
-    #try:
-    test_map.__save__('__temp2__')
-    temp_map = m.Map('__temp2__')
-    #except Exception as err:
-    #    sprint("Failed during Load/Save")
+    try:
+        test_map.__save__('__temp2__')
+        temp_map = m.Map('__temp2__')
+    except Exception as err:
+        util.sprint("Failed during Load/Save")
     # Continue testing:
     test.assertion("Save/Load test",
                     test_map.walls == temp_map.walls,
@@ -281,21 +304,71 @@ def test_engine():
         util.sprint("Simulating main Editor")
         engine.GUI.mode.__keypress__(up)
         engine.GUI.mode.__keypress__(left)
-        engine.GUI.mode.__keypress__(select)
+        engine.GUI.mode.__keypress__(select) # Select Bottom Right Tile
         engine.GUI.mode.__keypress__(down)
         engine.GUI.mode.__keypress__(right)
-        engine.GUI.mode.__keypress__(select)
+        key.keysym = 'BackSpace'
+        engine.GUI.mode.__keypress__(key)
         engine.GUI.mode.__keypress__(up)
         engine.GUI.mode.__keypress__(up)
-        engine.GUI.mode.__keypress__(select)
+        engine.GUI.mode.__keypress__(select) # Select Tile 2 Up from BotRight
         engine.GUI.mode.__keypress__(down)
         engine.GUI.mode.__keypress__(select)
+        engine.GUI.mode.__keypress__(select) # Create New Item 
+    except: 
+        util.sprint("Exception raised during prompt simulation 3")
+    # Simulate NewItemFile Prompt
+    try:        
+        util.sprint("\tSimulating NewItemFile Prompt")
+        for char in util.local_path("rsc/add.gif"):
+            if char == '.':    char = 'period'
+            elif char == '\\': char = 'backslash'
+            elif char == ':':  char = 'colon'
+            elif char == '/':  char = 'slash'
+            key.keysym = char
+            engine.GUI.mode.__keypress__(key)
+        engine.GUI.mode.__keypress__(select)
+    except:
+        util.sprint("Exception Raised during NewItemFile simulation")
+    # Simulate NewItemStats Prompt; then Save and Exit
+    try:
+        util.sprint("\tSimulating NewItemStats Prompt")
+        engine.GUI.mode.__keypress__(down)
+        engine.GUI.mode.__keypress__(select) # Select Name Field
+        key.keysym = 'Z'
+        engine.GUI.mode.__keypress__(key)
+        key.keysym = 'e'
+        engine.GUI.mode.__keypress__(key)
+        key.keysym = 'd'
+        engine.GUI.mode.__keypress__(key)
+        engine.GUI.mode.__keypress__(select) # Progress to Health
+        engine.GUI.mode.__keypress__(select)
+        key.keysym = '1'
+        engine.GUI.mode.__keypress__(key)
+        key.keysym = '0'
+        engine.GUI.mode.__keypress__(key)
+        engine.GUI.mode.__keypress__(select) # Progess to Attack
+        engine.GUI.mode.__keypress__(select)
+        key.keysym = '2'
+        engine.GUI.mode.__keypress__(key)
+        engine.GUI.mode.__keypress__(select) # Progress to Speed
+        engine.GUI.mode.__keypress__(select)
+        key.keysym = '4'
+        engine.GUI.mode.__keypress__(key)
+        engine.GUI.mode.__keypress__(select) # Progress to Range
+        engine.GUI.mode.__keypress__(select)
+        key.keysym = '3'
+        engine.GUI.mode.__keypress__(key)
+        engine.GUI.mode.__keypress__(select) # Progress to Done
+        engine.GUI.mode.__keypress__(select)
+        util.sprint("\tSimulating Save&Exit")        
         key.keysym = 'BackSpace'
         engine.GUI.mode.__keypress__(key)
         engine.GUI.mode.__keypress__(down)
         engine.GUI.mode.__keypress__(down)
     except: 
-        util.sprint("Exception raised during prompt simulation 3")
+        util.sprint("Exception raised during prompt simulation (item creation)")
+    # Save and Exit needs to be outside of 'Try':
     engine.GUI.mode.__keypress__(select)
     try:
         test_file = open( temp_path + '/config' )
@@ -303,7 +376,13 @@ def test_engine():
     contents = test_file.readlines()
     test.assertion("config contents test",
                     int(contents[10].split(",")[9]) == 4 
-                        and int(contents[12].split(",")[9]) == 5,
+                        and int(contents[12].split(",")[9]) == 5
+                        and int(contents[22].split(",")[9]) == 1
+                        and "ENEMY: Zed" in contents[26]
+                        and "10" in contents[27]
+                        and "2"  in contents[28]
+                        and "4"  in contents[29]
+                        and "3"  in contents[30],
                     "bad config file contents")
                     
     # Clean-up testing resources
@@ -324,6 +403,6 @@ if __name__ == '__main__':
     util_test = test_util()
     clean_map(file_name)
     clean_map('__temp2__')
-    util_test = test_maps()
+    maps_test = test_maps()
     clean_map(file_name)
-    util_test = test_engine()
+    engine_test = test_engine()

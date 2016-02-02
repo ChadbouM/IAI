@@ -3,7 +3,7 @@
   * part of the IAI project.
   * Used to build and represent the game's level-maps
   * *
-  * Last Edited: 01/30/16
+  * Last Edited: 01/31/16
 """
 # IMPORTS:
 import sys, os
@@ -11,7 +11,6 @@ import util
 import itemClass
 from   random  import randint
 from   Tkinter import *
-from   PIL     import Image as Img, ImageTk
 from   util    import type_check, sprint
 
 #### CLASSES ####
@@ -41,18 +40,28 @@ class Map(object):
     def __save__(self, name=None):
         if name is None: name = self.name
         this_path = util.local_path('source/Maps/', name)
+        ## SAVE AS:
         if not os.path.exists( this_path ):
+            orig_path = util.local_path('source/Maps/', self.name)
             os.makedirs( this_path )
             os.makedirs( this_path + '/items')
+            w_image = util.load_image("%s/background.gif" % (orig_path))
+            w_image.save(this_path + '/background.gif', format='gif')
             for item in self.items:
-                item.image.write( "%s/%s.%s"%(this_path,image.name, 'gif'),
-                                                                  format='gif' )
-            self.img.write(this_path + '/background.gif', format='gif')
+                w_image = util.load_image("%s/items/%s.gif" %
+                                                         (orig_path, item.name))
+                w_image.save( "%s/items/%s.gif"%(this_path, item.name), 'GIF',
+                                                               transparency = 1)
+                w_image.close()
+        ## SAVE:                                                 
         temp_file = open(this_path + '/config', 'w')
         temp_file.write("%d, %d\n\n" % (self.size[0], self.size[1]))
         temp_file.write(str(self.walls) + '\n\n')
         temp_file.write(str(self.spawn))
-
+        temp_file.write('\n\n')
+        for item in self.items:
+            temp_file.write(str(item) + '\n')
+            
     """ __load__: Loads this object from disk
       * Instantiates this object with the values from the Map folder baring its
       * name. Loads from the config file and various image files.
@@ -85,6 +94,7 @@ class Map(object):
         # READ ITEM DEFENITIONS ###################################<#<#<#<#<#<#<
         for item in range(item_count):
             self.__load_item__(temp_file)
+            temp_file.readline()                                   # READ DIVIDE
         temp_file.close()                                          # CLOSE  FILE
             
     """ __load_item__: Loads an item, adding it to this map
@@ -94,11 +104,12 @@ class Map(object):
     def __load_item__(self, file):
         title_line = file.readline()                              #  READ  TITLE
         _type, item_name  = title_line.split(':')
+        item_name = item_name.strip('{ \n')
         args = {}
         arg_line = file.readline()                                # READ ARG(S)
         while '}' not in arg_line:
             key, value = arg_line.split(':')
-            args[key] = value
+            args[key.strip().lower()] = value.strip()
             arg_line = file.readline()
         self.items += [ itemClass.MapItem(self.name, item_name, _type, args) ]
             
@@ -109,8 +120,7 @@ class Map(object):
     """ 
     def __create__(self, file, name, size):
         # Open the generation Image:
-        temp_file = Img.open(file)
-        temp_file = temp_file.resize(util.config.settings['Screen_Size'])
+        temp_file = util.load_image(file, util.config.settings['Screen_Size'])
         # Create new Folder
         self.name = name
         this_path = util.local_path('source/Maps', self.name)
